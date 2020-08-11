@@ -1,5 +1,609 @@
 
-<!-- ---------------Lập trinhf WOOOCOMMERCE----------------------- -->
+<?php
+$vnkings = new WP_Query(array(
+'post_type'=>'post',
+'post_status'=>'publish',
+'cat' => id_của_category,
+//thay id_của_category 
+'orderby' => 'ID',
+'order' => 'DESC',
+'posts_per_page'=> 5));
+?>
+<?php $i=1; while ($vnkings->have_posts()) : $vnkings->the_post(); ?>
+<?php if($i==1){ ?>
+<div class="bai_dau_tien">
+<a href="<?php the_permalink() ;?>" class="anh_bai_viet">
+<?php the_post_thumbnail("thumbnail",array( "title" => get_the_title(),"alt" => get_the_title() ));?>
+</a>
+<a href="<?php the_permalink() ;?>" class="tieu_de_bai_viet"><?php the_title() ;?></a>
+<p class="trich_dan">
+<?php the_excerpt() ;?>
+</p>
+</div>
+<?php } else { ?>
+<div class="cac_bai_con_lai"><a href="<?php the_permalink() ;?>"><?php the_title() ;?></a> </div>
+<?php } ?>
+<?php $i++; endwhile ; wp_reset_query() ;?>
+
+<!-- Get page -->
+
+<?php
+$nd_page = new WP_Query(array(
+'post_type'=>'page',
+'page_id'=> 1));
+?>
+<?php while ($nd_page->have_posts()) : $nd_page->the_post(); ?>
+// nội dung bạn cần lấy : tiêu đề, nội dung, thông tin mô tả
+<?php endwhile ; wp_reset_query() ;?>
+
+<!-- --------------Hướng dẫn Woocommerce--------------- -->
+
+w1. Hướng dẫn hiển thị sản phẩm trong giỏ hàng WooCommerce
+
+<div class="top-cart-content pc">
+	<?php global $woocommerce; ?>
+	<?php $items = $woocommerce->cart->get_cart();?>
+	<?php if(count($items) >= 1) { ?>
+		<ul class="mini-products-list" id="cart-sidebar">
+          <?php foreach ($items as $key => $value) { ?>
+            <?php $cart_item_remove_url = wc_get_cart_remove_url($key); ?>
+            <li class="item">
+              <div class="item-inner">
+                <a class="product-image" title="<?php echo get_the_title($value['product_id']); ?>" href="<?php echo get_permalink($value['product_id']); ?>">
+                  <img alt="<?php echo get_the_title($value['product_id']); ?>" src="<?php echo hk_get_thumb($value['product_id'], 80, 80); ?>">
+                </a>
+                <div class="product-details">
+                  <div class="access">
+                    <a class="jtv-btn-remove" title="Remove This Item" href="<?php echo $cart_item_remove_url; ?>"><i class="fa fa-times"></i></a>
+                    <a class="btn-edit" title="Edit item" href="<?php bloginfo('url'); ?>/gio-hang">
+                      <i class="icon-pencil"></i><span class="hidden">Edit item</span></a>
+                  </div>
+                  <p class="product-name">
+                    <a href="<?php echo get_permalink($value['product_id']); ?>">
+                      <?php echo get_the_title($value['product_id']); ?>
+                    </a>
+                  </p>
+                  <strong><?php echo $value['quantity']; ?></strong> x <span class="price"><?php echo number_format($value['line_total']/$value['quantity'],0,",","."); ?> đ</span>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </li>
+          <?php } ?>
+        </ul>
+        <div class="actions">
+        	<div class="totel">
+        		<div class="tong">
+        			Tổng cộng:
+        		</div>
+        		<div class="tien"><?php echo WC()->cart->get_cart_total(); ?></div>
+        		<div class="clear"></div>
+        	</div>
+        	<div class="riw">
+        		<a href="<?php bloginfo('url'); ?>/thanh-toan"><span>Thanh Toán</span></a>
+        		<a href="<?php bloginfo('url'); ?>/gio-hang"><span>Giỏ hàng</span></a>
+        		<div class="clear"></div>
+        	</div>    
+        </div>
+	<?php } else { ?>			
+	<ul id="cart-sidebar" class="mini-products-list count_li">
+		<div class="no-item"><p>Không có sản phẩm nào trong giỏ hàng.</p></div>
+	</ul>
+	<?php } ?>
+</div>
+
+<!--  -->
+
+w2. Hiển thị sản phẩm mua nhiều trong WooCommerce
+
+<?php
+	$args = array(
+		'post_type' => 'product',
+		'post_status' => 'publish',
+		'posts_per_page' => 10,
+		'meta_key' => 'total_sales',
+		'orderby' => 'meta_value_num'
+	);
+?>
+<?php $getposts = new WP_query( $args);?>
+<?php global $wp_query; $wp_query->in_the_loop = true; ?>
+<?php while ($getposts->have_posts()) : $getposts->the_post(); ?>
+<?php global $product; ?>
+	<div class="item-product">
+		<a href="<?php the_permalink(); ?>">
+			<?php echo get_the_post_thumbnail(get_the_ID(), 'thumnail', array( 'class' =>'thumnail') ); ?>
+		</a>
+		<h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+		<div class="price-product"><?php echo $product->get_price_html(); ?></div>
+		<a href="<?php bloginfo('url'); ?>?add-to-cart=<?php the_ID(); ?>">Thêm vào giỏ</a>
+	</div>
+<?php endwhile; wp_reset_postdata(); ?>
+
+<!--  -->
+
+w3. Search sản phẩm theo danh mục trong WooCommerce
+
+<form action="/" method="GET" role="form">
+	<div class="form-group">
+		<select name="" id="product_cat" class="form-control" required="required">
+			<option value="">Tất cả</option>
+			<option value="slug1">Danh mục 1</option>
+			<option value="slug2">Danh mục 2</option>
+			<option value="slug3">Danh mục 3</option>
+		</select>
+	</div>
+	<div class="form-group">
+		<input type="text" name="s" id="s" class="form-control">
+	</div>
+	<button type="submit" class="btn btn-primary">Tìm kiếm</button>
+</form>
+----
+<form action="<?php bloginfo('url'); ?>/" method="GET" role="form">
+	<input type="hidden" name="post_type" value="product">
+	<div class="form-group">
+		<?php $args = array(
+			'show_option_all'    => '',
+			'show_option_none' 	 => __( 'Danh mục' ),
+			'option_none_value'  => '',
+			'orderby'            => 'ID',
+			'order'              => 'ASC',
+			'show_count'         => 0,
+			'hide_empty'         => 0,
+			'child_of'           => 0,
+			'include'            => '',
+			'echo'               => 1,
+			'selected'           => 0,
+			'hierarchical'       => 1,
+			'name'               => 'product_cat',
+			'id'                 => 'product_cat',
+			'class'              => 'form-control',
+			'depth'              => 0,
+			'tab_index'          => 0,
+			'taxonomy'           => 'product_cat',
+			'hide_if_empty'      => false,
+			'value_field'	     => 'slug',
+		); ?>
+		<?php wp_dropdown_categories( $args ); ?> 
+	</div>
+	<div class="form-group">
+		<input type="text" name="s" id="s" class="form-control" placeholder="Từ khóa">
+	</div>
+	<button type="submit" class="btn btn-primary">Tìm kiếm</button>
+</form>
+
+<!--  -->
+
+.W4. Hiển thị sản phẩm theo danh mục dạng tabs trong woocommerce
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#home">Home</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#menu1">Menu 1</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#menu2">Menu 2</a>
+  </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane container active" id="home">...</div>
+  <div class="tab-pane container fade" id="menu1">...</div>
+  <div class="tab-pane container fade" id="menu2">...</div>
+</div>
+
+---
+
+<ul class="nav nav-tabs">
+  	<li class="nav-item">
+    	<a class="nav-link active" data-toggle="tab" href="#home">Tất cả</a>
+  	</li>
+  	<?php $args = array( 
+	    'hide_empty' => 0,
+	    'taxonomy' => 'product_cat',
+	    'parent' => 0
+	    ); 
+	    $cates = get_categories( $args ); 
+	    foreach ( $cates as $cate ) {  ?>
+			<li class="nav-item">
+			    <a class="nav-link" data-toggle="tab" href="#<?php echo $cate->slug; ?>"><?php echo $cate->name; ?></a>
+			</li>
+	<?php } ?>
+</ul>
+<div class="tab-content">
+	<div class="tab-pane container active" id="home">
+		<?php
+			$args = array( 
+				'post_type' => 'product',
+				'posts_per_page' => 8 
+			); 
+		?>
+		<?php $getposts = new WP_query( $args);?>
+		<?php global $wp_query; $wp_query->in_the_loop = true; ?>
+		<?php while ($getposts->have_posts()) : $getposts->the_post(); ?>
+		<?php global $product; ?>
+			<div class="item-product">
+				<a href="<?php the_permalink(); ?>">
+					<?php echo get_the_post_thumbnail(get_the_ID(), 'thumnail', array( 'class' =>'thumnail') ); ?>
+				</a>
+				<h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+				<div class="price-product"><?php echo $product->get_price_html(); ?></div>
+				<a href="<?php bloginfo('url'); ?>?add-to-cart=<?php the_ID(); ?>">Thêm vào giỏ</a>
+			</div>
+		<?php endwhile; wp_reset_postdata();?>
+	</div>
+  	<?php $args = array( 
+	    'hide_empty' => 0,
+	    'taxonomy' => 'product_cat',
+	    'parent' => 0
+	    ); 
+	    $cates = get_categories( $args ); 
+	    foreach ( $cates as $cate ) {  ?>
+			<div class="tab-pane container fade" id="<?php echo $cate->slug; ?>">
+				<?php
+					$args = array( 
+						'post_type' => 'product',
+						'posts_per_page' => 8,
+						'product_cat' => $cate->slug
+					); 
+				?>
+				<?php $getposts = new WP_query( $args);?>
+				<?php global $wp_query; $wp_query->in_the_loop = true; ?>
+				<?php while ($getposts->have_posts()) : $getposts->the_post(); ?>
+				<?php global $product; ?>
+					<div class="item-product">
+						<a href="<?php the_permalink(); ?>">
+							<?php echo get_the_post_thumbnail(get_the_ID(), 'thumnail', array( 'class' =>'thumnail') ); ?>
+						</a>
+						<h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+						<div class="price-product"><?php echo $product->get_price_html(); ?></div>
+						<a href="<?php bloginfo('url'); ?>?add-to-cart=<?php the_ID(); ?>">Thêm vào giỏ</a>
+					</div>
+				<?php endwhile; wp_reset_postdata();?>
+			</div>
+	<?php } ?>
+  	
+</div>
+
+<!--  -->
+<?php
+$args = array(
+    'type'      => 'post',
+    'child_of'  => 0,
+    'parent'    => ''
+);
+$categories = get_categories( $args );
+foreach ( $categories as $category ) { ?>
+     <?php echo $category->name ; ?>
+<?php } ?>
+
+
+<?php 
+ 
+$args = array(
+	'type'                     => 'post',
+	'child_of'                 => 0,
+	'parent'                   => '',
+	'orderby'                  => 'name',
+	'order'                    => 'ASC',
+	'hide_empty'               => 1,
+	'hierarchical'             => 1,
+	'exclude'                  => '',
+	'include'                  => '',
+	'number'                   => '',
+	'taxonomy'                 => 'category',
+	'pad_counts'               => false 
+ 
+); 
+ 
+?>
+
+Trong đó: 
+
+‘type’ là kiểu bài viết khi cài wordpress ban đầu thi sẽ có 2 kiểu đó là ‘post’ và ‘page’. Mặt nếu ko sử dụng điều kiện này thì nó sẽ nhận giá trị là ‘post’.
+‘child_of’ sẽ nhận 2 giá trị là 1 hoặc 0, Nếu nhận giá trị là 1 thì nó chỉ lấy các danh mục có danh mục con. Nếu nó nhận giá trị là 0 thì nó sẽ lấy tất cả danh mục. Mặt định nó nhận giá trị là 0.
+‘parent’ Sẽ nhận giá trị là id cha, Khi điền id cha vô đây nó sẽ list hết danh sách các chuyên mục con của parent.
+‘orderby’ Giá trị này nó nghĩ là sắp xếp theo, giá trị nhận có thể là : id, name, slug, count, term_group. Mặc định nó sẽ nhận giá trị là name.
+‘order’ Sẽ nhận 2 giá trị là: ASC hoặc DESC có nghĩ là sắp sếp theo giảm dân hoặc tăng dần. Mặt định nó là ASC.
+‘hide_empty’  Sẽ nhận 2 giá trị là 1 hoặc 0, Nếu nhận giá trị 1 là nó sẽ không hiển thị các danh mục mà chưa có bài viết.
+‘hierarchical‘ Có hiện thị danh mục theo dạng cây hay ko. Nếu có điền giá trị 1, nếu không thì giá trị 0
+‘exclude’ Giá trị nhận ở đây là 1 mảng các id không muốn hiện thị trong chuyên mục.
+‘include’ Giá trị nhận là 1 mảng id sẽ xuất hiện trong chuyên mục
+‘number’ Số lượng danh mục muốn hiển thị.
+ ‘pad_counts’
+
+ $category->term_id
+$category->name
+$category->slug
+$category->term_group
+$category->term_taxonomy_id
+$category->taxonomy
+$category->description
+$category->parent
+$category->count
+$category->cat_ID
+$category->category_count
+$category->category_description
+$category->cat_name
+$category->category_nicename
+$category->category_parent
+
+<!--  -->
+
+<section class="company-product">
+	<div class="container">
+		<h2 class="heading">
+			<?php _e('Sản phẩm của chúng tôi') ?>
+		</h2>
+		<div class="row">
+			<?php $args = array( 
+			    'hide_empty' => 0,
+			    'taxonomy' => 'products_type',
+			    'orderby' => 'id',
+			    'parent' => 0
+			    // 'child_of' => 0
+			    ); 
+			    $cates = get_categories( $args ); 
+			    //$cates = get_terms( 'products_type' );
+			    if ( ! empty( $cates ) && ! is_wp_error( $cates ) ) {
+			    foreach ( $cates as $cate ) {  ?>
+					<div class="col-md-2 col-6 cat-product-content">
+						<a href="<?php echo get_term_link($cate->slug, 'products_type'); ?>">
+							<?php 
+								$image = get_field('field-image', $cate->taxonomy . '_' . $cate->term_id);
+									echo '<img src="'.$image['url'].'" alt="image" />';
+							 ?>
+							<p>
+								<?php echo $cate->name; ?>
+								(<?php echo $cate->count; ?>)	
+							</p>
+						</a>
+					</div>
+			<?php } } ?>
+			<a class="view-cate-product" href="http://mayraitham.com/san-pham/">Xem thêm &raquo; </a>
+		</div>
+	</div>
+</section>
+
+
+<!--  -->
+
+W5. Hiển thị sản phẩm được đánh giá cao trong WooCommerce
+
+<?php $args = array(
+	'posts_per_page' => 10,
+	'post_status'    => 'publish',
+	'post_type'      => 'product',
+	'meta_key'       => '_wc_average_rating',
+	'orderby'        => 'meta_value_num',
+	'order'          => 'DESC',
+);?>
+<?php $getposts = new WP_query( $args);?>
+<?php global $wp_query; $wp_query->in_the_loop = true; ?>
+<?php while ($getposts->have_posts()) : $getposts->the_post(); ?>
+<?php global $product; ?>
+<?php 
+  $rating_count = $product->get_rating_count();
+  $review_count = $product->get_review_count();
+  $average      = $product->get_average_rating();
+?>
+	<div class="item-product">
+	  	<a href="<?php the_permalink(); ?>">
+	   		<?php echo get_the_post_thumbnail(get_the_ID(), 'thumnail', array( 'class' =>'thumnail') ); ?>
+	  	</a>
+	  	<h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+	  	<div class="price-product"><?php echo $product->get_price_html(); ?></div>
+	  	<?php if ( $rating_count > 0 ) : ?>
+          <?php echo wc_get_rating_html( $average, $rating_count ); ?>
+        <?php else: ?>
+          <div class="star-rating">
+            <span style="width:0%"><strong class="rating">0</strong> trên 5 dựa trên <span class="rating">0</span> đánh giá</span>
+          </div>
+        <?php endif; ?>
+	  	<a href="<?php bloginfo('url'); ?>?add-to-cart=<?php the_ID(); ?>">Thêm vào giỏ</a>
+	</div>
+<?php endwhile; wp_reset_postdata();?>
+
+<!--  -->
+
+w6. Hiển thị sản phẩm theo danh mục woocommerce và danh mục sản phẩm
+
+- Lấy danh mục sản phẩm trong woocommerce
+
+<ul>
+<?php $args = array( 
+    'hide_empty' => 0,
+    'taxonomy' => 'product_cat',
+    'orderby' => 'id',
+    'parent' => 0
+    ); 
+    $cates = get_categories( $args ); 
+    foreach ( $cates as $cate ) {  ?>
+		<li>
+			<a href="<?php echo get_term_link($cate->slug, 'product_cat'); ?>"><?php echo $cate->name; ?></a>
+		</li>
+<?php } ?>
+</ul>
+
+- Get danh mục sản phẩm có hình đại diện danh mục:
+
+<ul>
+<?php $args = array( 
+    'hide_empty' => 0,
+    'taxonomy' => 'product_cat',
+    'orderby' => 'id',
+    'parent' => 0
+    ); 
+    $cates = get_categories( $args ); 
+    foreach ( $cates as $cate ) {  ?>
+    	<?php 
+    		$thumbnail_id = get_woocommerce_term_meta($cate->term_id, 'thumbnail_id', true );
+		    $image = wp_get_attachment_url( $thumbnail_id );
+    	?>
+		<li>
+			<img src="<?php echo $image; ?>" alt="<?php echo $cate->name; ?>">
+			<a href="<?php echo get_term_link($cate->slug, 'product_cat'); ?>"><?php echo $cate->name; ?></a>
+		</li>
+<?php } ?>
+</ul>
+
+-- Hiển thị sản phẩm theo danh mục woocommerce
+
+<?php
+	$cat = 'danh-muc';
+	$args = array( 
+		'post_type' => 'product',
+		'posts_per_page' => 10, 
+		'product_cat' => $cat
+	); 
+?>
+<?php $getposts = new WP_query( $args);?>
+<?php global $wp_query; $wp_query->in_the_loop = true; ?>
+<?php while ($getposts->have_posts()) : $getposts->the_post(); ?>
+<?php global $product; ?>
+	<div class="item-product">
+		<a href="<?php the_permalink(); ?>">
+			<?php echo get_the_post_thumbnail(get_the_ID(), 'thumnail', array( 'class' =>'thumnail') ); ?>
+		</a>
+		<h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+		<div class="price-product"><?php echo $product->get_price_html(); ?></div>
+		<a href="<?php bloginfo('url'); ?>?add-to-cart=<?php the_ID(); ?>">Thêm vào giỏ</a>
+	</div>
+<?php endwhile; wp_reset_postdata();?>
+
+<!--  -->
+
+w7. Hiển thị sản phẩm giảm giá WooCommerce (Sale products)
+
+<?php $args = array( 
+	'post_type' => 'product',
+	'posts_per_page' => 10, 
+	'meta_query'     => array(
+        'relation' => 'OR',
+        array(
+            'key'           => '_sale_price',
+            'value'         => 0,
+            'compare'       => '>',
+            'type'          => 'numeric'
+        )
+    )
+); ?>
+<?php $getposts = new WP_query( $args);?>
+<?php global $wp_query; $wp_query->in_the_loop = true; ?>
+<?php while ($getposts->have_posts()) : $getposts->the_post(); ?>
+<?php global $product; ?>
+	<div class="item-product">
+		<a href="<?php the_permalink(); ?>">
+			<?php echo get_the_post_thumbnail(get_the_ID(), 'thumnail', array( 'class' =>'thumnail') ); ?>
+		</a>
+		<h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+		<div class="price-product"><?php echo $product->get_price_html(); ?></div>
+		<a href="<?php bloginfo('url'); ?>?add-to-cart=<?php the_ID(); ?>">Thêm vào giỏ</a>
+	</div>
+<?php endwhile; wp_reset_postdata();?>
+
+--- Nếu trong trường hợp sản phẩm biến thể chúng ta sử dụng doạn code sau:
+
+<?php $args = array( 
+	'post_type' => 'product',
+	'posts_per_page' => 10, 
+	'meta_query'     => array(
+        'relation' => 'OR',
+        array(
+            'key'           => '_sale_price',
+            'value'         => 0,
+            'compare'       => '>',
+            'type'          => 'numeric'
+        ),
+        array(
+	        'key'           => '_min_variation_sale_price',
+	        'value'         => 0,
+	        'compare'       => '>',
+	        'type'          => 'numeric'
+	    )
+    )
+); ?>
+<?php $getposts = new WP_query( $args);?>
+<?php global $wp_query; $wp_query->in_the_loop = true; ?>
+<?php while ($getposts->have_posts()) : $getposts->the_post(); ?>
+<?php global $product; ?>
+	<div class="item-product">
+		<a href="<?php the_permalink(); ?>">
+			<?php echo get_the_post_thumbnail(get_the_ID(), 'thumnail', array( 'class' =>'thumnail') ); ?>
+		</a>
+		<h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+		<div class="price-product"><?php echo $product->get_price_html(); ?></div>
+		<a href="<?php bloginfo('url'); ?>?add-to-cart=<?php the_ID(); ?>">Thêm vào giỏ</a>
+	</div>
+<?php endwhile; wp_reset_postdata();?>
+
+<!--  -->
+
+w8. Hiển thị sản phẩm nổi bật trong WooCommerce (featured products)
+
+<?php
+	$tax_query[] = array(
+	    'taxonomy' => 'product_visibility',
+	    'field'    => 'name',
+	    'terms'    => 'featured',
+	    'operator' => 'IN',
+	);
+?>
+<?php $args = array( 'post_type' => 'product','posts_per_page' => 10,'ignore_sticky_posts' => 1, 'tax_query' => $tax_query); ?>
+<?php $getposts = new WP_query( $args);?>
+<?php global $wp_query; $wp_query->in_the_loop = true; ?>
+<?php while ($getposts->have_posts()) : $getposts->the_post(); ?>
+<?php global $product; ?>
+	<div class="item-product">
+		<a href="<?php the_permalink(); ?>">
+			<?php echo get_the_post_thumbnail(get_the_ID(), 'thumnail', array( 'class' =>'thumnail') ); ?>
+		</a>
+		<h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+		<div class="price-product"><?php echo $product->get_price_html(); ?></div>
+		<a href="<?php bloginfo('url'); ?>?add-to-cart=<?php the_ID(); ?>">Thêm vào giỏ</a>
+	</div>
+<?php endwhile; wp_reset_postdata(); ?>
+
+<!--  -->
+
+Code chuyển 0đ thành chữ “Liên hệ”
+
+<?php 
+	function devvn_wc_custom_get_price_html( $price, $product ) {
+    if ( $product->get_price() == 0 ) {
+        if ( $product->is_on_sale() && $product->get_regular_price() ) {
+            $regular_price = wc_get_price_to_display( $product, array( 'qty' => 1, 'price' => $product->get_regular_price() ) );
+ 
+            $price = wc_format_price_range( $regular_price, __( 'Free!', 'woocommerce' ) );
+        } else {
+            $price = '<span class="amount">' . __( 'Liên hệ', 'woocommerce' ) . '</span>';
+        }
+    }
+    return $price;
+}
+add_filter( 'woocommerce_get_price_html', 'devvn_wc_custom_get_price_html', 10, 2 );
+
+ ?>
+
+<!--  -->
+
+Chuyển giá thành “Liên hệ” khi hết hàng
+
+<?php 
+	function devvn_oft_custom_get_price_html( $price, $product ) {
+    if ( !is_admin() && !$product->is_in_stock()) {
+       $price = '<span class="amount">' . __( 'Liên hệ', 'woocommerce' ) . '</span>';
+    }
+    return $price;
+}
+add_filter( 'woocommerce_get_price_html', 'devvn_oft_custom_get_price_html', 99, 2 );
+ ?>
+
+
+
+<!-- ---------------Những đoạn code hay dùng trong lập trình theme woocommecre wordpress----------------------- -->
+
 
 1. Code hiển thị 10 sản phẩm mới nhất.
 
@@ -192,6 +796,19 @@ Tìm kiếm sản phẩn với từ khóa và danh mục sản phẩm.
 <?php endif; ?>
 
 <!--  -->
+Thay đổi ký tự tiền tệ Đồng Việt Nam
+
+<?php 
+	add_filter('woocommerce_currency_symbol', 'change_existing_currency_symbol', 10, 2);
+	function change_existing_currency_symbol( $currency_symbol, $currency ) {
+	switch( $currency ) {
+		case 'VND': $currency_symbol = 'VNĐ'; break;
+		 	}
+		return $currency_symbol;
+	}
+ ?>
+
+<!--  -->
 
 11. Code lấy nội dung mô tả ngắn, category, từ khóa của sản phẩm.
 
@@ -341,6 +958,8 @@ add_action('woocommerce_single_product_summary', 'woo_star_hk', 7);?>
 		</li>
 <?php } ?>
 <!-- Get category -->
+
+<?php echo category_description( get_category_by_slug( 'du-an-tieu-bieu' )->term_id ); ?>
 
 <!--  -->
 
@@ -715,6 +1334,41 @@ $the_query = new WP_Query( $args );
 	<a href="<?php the_permalink();?>"><?php the_title();?></a>
 </li>
 <?php endwhile; }  wp_reset_postdata(); ?>
+
+<!--  -->
+19. lấy danh mục
+
+<?php
+$args = array(
+    'type'      => 'post',
+    'child_of'  => 0,
+    'parent'    => ''
+);
+$categories = get_categories( $args );
+foreach ( $categories as $category ) { ?>
+     <?php ehco $category->name ; ?>
+<?php } ?>
+
+
+<?php 
+ 
+$args = array(
+	'type'                     => 'post',
+	'child_of'                 => 0,
+	'parent'                   => '',
+	'orderby'                  => 'name',
+	'order'                    => 'ASC',
+	'hide_empty'               => 1,
+	'hierarchical'             => 1,
+	'exclude'                  => '',
+	'include'                  => '',
+	'number'                   => '',
+	'taxonomy'                 => 'category',
+	'pad_counts'               => false 
+ 
+); 
+ 
+?>
 
 <!--  -->
 
