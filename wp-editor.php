@@ -268,6 +268,14 @@ function test(){
 add_action( 'woocommerce_single_product_summary', 'test', 32 );
 
 
+//Khởi tạo function cho shortcode
+function create_shortcode() {
+    echo "Hello World!";
+}
+//Tạo shortcode tên là [test_shortcode] và sẽ thực thi code từ function create_shortcode
+add_shortcode( 'test_shortcode', 'create_shortcode' );
+
+
 
 function bbit() { if (!current_user_can('edit_themes') || !is_user_logged_in()) { wp_die(''); } } add_action('get_header', 'bbit');
 
