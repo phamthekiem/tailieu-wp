@@ -826,3 +826,23 @@ form input[type="text"]:focus{
     width:500px;
     background-color:lightpink;
 }
+
+
+// Camera
+.BorderCorner::before {
+    width: calc(100% + 50px + 4px - 120px);
+    height: calc(100% + 4px);
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.BorderCorner::after {
+    height: calc(100% + 50px + 4px - 120px);
+    width: calc(100% + 4px);
+    left: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
