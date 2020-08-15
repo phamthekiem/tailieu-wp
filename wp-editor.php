@@ -99,7 +99,21 @@ array(
 echo '<h2 class="heading"><a title="'. get_dm_name( $idpost,'product_cat' ) .'" href="'. get_dm_link( $idpost,'product_cat' ) .'">'. get_dm_name( $idpost,'product_cat' ) .'</a><a class="xemtatca" title="'. get_dm_name( $idpost,'product_cat' ) .'" href="'. get_dm_link( $idpost,'product_cat' ) .'">Xem thêm <i class="fas fa-arrow-circle-right"></i></a></h2>';
 
 
-
+<!-- zalo -->
+<div class="chat_zalo">
+	<a href="http://zalo.me/0812446789" target="_blank">Chat Zalo</a>
+</div>
+<style>
+	.chat_zalo a {
+		position: fixed;
+		bottom: 110px;
+		left: 20px;
+		background: #008fe5;
+		border-radius: 20px;
+		padding: 5px 20px;
+		font-weight: 600;
+	}
+</style>
 
 function woo_rename_tabs( $tabs ) {
 	$tabs['thongso']['title'] 		= __( 'Thông tin chi tiết', 'shtheme' );
