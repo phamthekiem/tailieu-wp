@@ -898,6 +898,24 @@ add_action('woocommerce_single_product_summary', 'woo_share_and_ontact_hk', 60);
 
 <!--  -->
 
+<!-- Comment -->
+<?
+if ( is_single() ) {
+get_template_part( 'template-parts/navigation' );
+}
+/**
+*  Output comments wrapper if it's a post, or if comments are open,
+* or if there's a comment number – and check for password.
+* */
+if ( ( is_single() || is_page() ) && ( comments_open() || get_comments_number() ) && ! post_password_required() ) {
+?>
+<div class="comments-wrapper section-inner">
+	<?php comments_template(); ?>
+</div><!-- .comments-wrapper -->
+<?php
+}
+?>
+
 14. Code chèn 5 sao cho sản phẩm hiện thị ở chi tiết sản phẩm.
 <?
 function woo_star_hk(){ ?>

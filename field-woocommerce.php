@@ -136,3 +136,6 @@ function woocommerce_product_fields_save($post_id) {
     if (!empty($woocommerce_product_field_bao_hanh))
         update_post_meta($post_id, '_bao_hanh', esc_attr($woocommerce_product_field_bao_hanh));  
 }
+
+
+// echo get_post_meta( get_the_ID(), '_thong_so_ky_thuat', true );
