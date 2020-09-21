@@ -1,0 +1,29 @@
+<style>
+    body { margin: 0; }
+
+section { 
+  height: 2000px;
+  padding-top: 100px; }
+
+.sticky { background: orange; }
+
+.fixed {
+  position: fixed;
+  top:0; left:0;
+  width: 100%; }
+</style>
+
+
+<section>
+    <div class="sticky">This div will stick to the top</div>
+</section>
+
+<script>
+    $(window).scroll(function(){
+  var sticky = $('.sticky'),
+      scroll = $(window).scrollTop();
+
+  if (scroll >= 100) sticky.addClass('fixed');
+  else sticky.removeClass('fixed');
+});
+</script>

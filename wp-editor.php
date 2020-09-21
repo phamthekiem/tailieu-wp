@@ -253,7 +253,9 @@ function myFunction() {
 
 
 <?php 
-	add_filter('use_block_editor_for_post', '__return_false');
+    add_filter('use_block_editor_for_post', '__return_false');
+    
+    add_filter( 'widget_text', 'do_shortcode' );
 
 	require get_template_directory() . '/template-page/custom-new.php';
  ?>
@@ -854,6 +856,20 @@ form input[type="text"]:focus{
     width:500px;
     background-color:lightpink;
 }
+
+// 
+
+<div class="container">                                       
+  <div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="#">HTML</a></li>
+      <li><a href="#">CSS</a></li>
+      <li><a href="#">JavaScript</a></li>
+    </ul>
+  </div>
+</div>
 
 
 // Camera
