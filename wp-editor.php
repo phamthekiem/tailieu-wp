@@ -254,6 +254,10 @@ function myFunction() {
 
 <?php 
     add_filter('use_block_editor_for_post', '__return_false');
+
+    // Lazload wp 5.5
+    
+    add_filter('wp_lazy_loading_enabled', '__return_false');
     
     add_filter( 'widget_text', 'do_shortcode' );
 
@@ -928,3 +932,74 @@ form input[type="text"]:focus{
                 if (h<10) {h="0" + h}
             document.getElementById("clock").innerHTML=""  + days[day] + ",  "+ date + "/" +months[month] + "/" + year + " | "+ "" + h + ":" + m +  " " + AM_PM; setTimeout("refrClock()",1000); } refrClock(); 
     </script>
+
+
+// Submenu
+jQuery(".sidebar .widget_nav_menu ul.menu li.menu-item-has-children").append(
+    '<button class="toggle-cate"><i class="fas fa-sort-down"></i></button>'
+);
+
+jQuery(".sidebar .menu li.menu-item-has-children > .toggle-cate").on(
+"click",
+    function () {
+        jQuery(this).parent().toggleClass("--active");
+        jQuery(this).parent().siblings().removeClass("--active");
+    }
+);
+
+?>
+<style>
+.sidebar .widget_nav_menu .menu-item-has-children .sub-menu {
+	background: #FFF;
+	position: relative;
+	top: -1px;
+	z-index: 99;
+	opacity: 1;
+	visibility: initial;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+    max-height: 0;
+    overflow: hidden;
+}
+.content-sidebar .sidebar .widget_nav_menu .menu-item-has-children .sub-menu {
+    position: relative !important;
+    top: unset !important;
+    right: unset !important;
+    left: unset !important;
+    transform: unset !important;
+    min-width: unset !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    padding: 0 !important;
+    border: 0 !important;
+}
+
+li.menu-item-has-children.--active > .toggle-cate {
+    transform: rotate(-180deg);
+    transition: 0.5s all ease-in-out;
+}
+
+.sidebar .widget_nav_menu ul.menu li.menu-item-has-children {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.sidebar .widget_nav_menu ul li.menu-item-has-children.--active > .sub-menu {
+    max-height: 60rem;
+    transition: max-height 0.4s ease-in-out;
+}
+
+.toggle-cate {
+    border: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    transform: rotate(0);
+    transition: 0.5s all ease-in-out;
+    outline: 0 !important;
+}
+</style>
