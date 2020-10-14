@@ -1068,6 +1068,74 @@ function wpdocs_theme_setup() {
 
 11.Code bài viết liên quan
 
+<!-- Hiện thị bài viết liên theo category -->
+<?php
+    $categories = get_the_category($post->ID);
+    if ($categories) 
+    {
+        $category_ids = array();
+        foreach($categories as $individual_category) $category_ids[] = $individual_category->term_id;
+ 
+        $args=array(
+        'category__in' => $category_ids,
+        'post__not_in' => array($post->ID),
+        'showposts'=>5, // Số bài viết bạn muốn hiển thị.
+        'caller_get_posts'=>1
+        );
+        $my_query = new wp_query($args);
+        if( $my_query->have_posts() ) 
+        {
+            echo '<h3>Bài viết liên quan</h3><ul class="list-news">';
+            while ($my_query->have_posts())
+            {
+                $my_query->the_post();
+                ?>
+                <li>
+                	<div class="new-img"><a href="<?php the_permalink(); ?>"><?php the_post_thumbnail(array(85, 75)); ?></a></div>
+                	<div class="item-list">
+                		<h4><a href="<?php the_permalink() ?>" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h4>
+                		<?php the_excerpt(); ?>
+                	</div>
+                </li>
+                <?php
+            }
+            echo '</ul>';
+        }
+    }
+?>
+
+<!-- Sản phẩm liên quan -->
+<?php
+	$terms = get_the_terms( get_the_ID(), 'product_cat' );
+	$current_term = $terms[0]->slug;
+	// echo '<pre>';
+	// print_r($terms);
+	// echo '</pre>';
+	if ($current_term) {
+		$args = array(
+			'product_cat' => $current_term,
+			'post__not_in' => array(get_the_id()),
+			// 'showposts' => 5,
+			'orderby' => 'rand',
+			'caller_get_posts' => 1,
+			'post_type' => 'product',
+		);
+		$my_query = new wp_query($args);
+		if ($my_query->have_posts()) { ?>
+			<ul class="slick-carousel list-products" data-item="<?php echo $numcol_pro_related; ?>" data-item_md="2" data-item_sm="2" data-item_mb="2" data-row="1" data-dots="false" data-arrows="true" data-vertical="false">
+				<?php while ($my_query->have_posts()) {
+					$my_query->the_post(); 
+					wc_get_template_part('content', 'product');
+				} ?>
+			</ul> 
+			<?php 
+		}
+	}
+
+?>
+
+<!-- Hiện thị bài viết liên theo tag. -->
+
 <!-- Hiển thị bài viết theo Tag -->
 <div id="relatedposttags">    
     <?php
