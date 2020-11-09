@@ -136,3 +136,21 @@ add_action( 'delete_term', 'devvn_new_product_cat_edit_success', 10);
 function devvn_new_product_cat_edit_success( ) {
     devvn_no_product_cat_parents_rewrite_rules(true);
 }
+
+// Breadcrumb Yoast Seo
+add_filter( 'wpseo_breadcrumb_single_link' ,'wpseo_remove_breadcrumb_link', 10 ,2);
+function wpseo_remove_breadcrumb_link( $link_output , $link ){
+	$text_to_remove = 'Sản phẩm';
+	if( $link['text'] == $text_to_remove ) {
+		$link_output = '';
+	}
+return $link_output;
+}
+
+add_filter( 'wpseo_breadcrumb_links', 'wpseo_breadcrumb_remove_postname' );
+function wpseo_breadcrumb_remove_postname( $links ) {
+	if( sizeof($links) > 1 ){
+		array_pop($links);
+	}
+return $links;
+}

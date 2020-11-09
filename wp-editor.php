@@ -58,24 +58,16 @@ array(
 
 <img src="<?php echo $sh_option['opt_image4']['url'] ?>" alt="<?php echo $sh_option['opt_image4']['url'] ?>">
 
-<div class="slick-carousel list-products" 
-	data-item="6" 
-	data-item_md="6" 
-	data-item_sm="4" 
-	data-item_mb="2" 
-	data-row="1" 
-	data-dots="false" 
-	data-arrows="true" 
-	data-vertical="false">
-		<?php global $sh_option; ?>
-                <?php $i = 0; ?>
-                <?php foreach( $sh_option['home-3'] as $slide ) : ?>
-                <div class="item"> 
-                <div class="image1"><img src="<?php echo $sh_option['home-3'][$i]['image']; ?>" alt=""/></div>
-                </div>
-                <?php $i++; ?>
-                <?php endforeach; ?>
-	</div>
+<div class="slick-carousel list-products" data-item="6" data-item_md="6" data-item_sm="4" data-item_mb="2" data-row="1" data-dots="false" data-arrows="true" data-vertical="false">
+    <?php global $sh_option; ?>
+        <?php $i = 0; ?>
+        <?php foreach( $sh_option['home-3'] as $slide ) : ?>
+        <div class="item"> 
+        <div class="image1"><img src="<?php echo $sh_option['home-3'][$i]['image']; ?>" alt=""/></div>
+        </div>
+        <?php $i++; ?>
+        <?php endforeach; ?>
+</div>
 
 
 <?php if (qtranxf_getLanguage() == 'ngôn ngữ tưng ứng') {
@@ -519,6 +511,17 @@ function danhmuc_sanpham_func() {
 }
 add_action( 'init', 'danhmuc_sanpham_func', 0 );
 
+// Funtion taxonomy
+function useParentCategoryTemplatectyfire()
+{
+	if (is_category() && !is_feed()) {
+		if (is_category(get_cat_id('Dự án')) || cat_is_ancestor_of(get_cat_id('Dự án'), get_query_var('cat'))) {
+			load_template(TEMPLATEPATH . '/archive-duan.php');
+			exit;
+		}
+	}
+}
+add_action('template_redirect', 'useParentCategoryTemplatectyfire');
 
 
 <script>
@@ -1003,3 +1006,206 @@ li.menu-item-has-children.--active > .toggle-cate {
     outline: 0 !important;
 }
 </style>
+
+<!-- NAV - FOR Slick -->
+<!-- Single -->
+<div class="tab-content">
+    <?php  
+    $args = array(
+        'post_type' 		=> 'service',
+        'posts_per_page' 	=> 1,
+    );
+    $the_query = new WP_Query( $args );
+    while($the_query -> have_posts()) : $the_query -> the_post();
+    $images = get_field('service_gallery');
+    if( $images ): ?>
+        <div class="service-carousel">
+            <div class="slider-for">
+                <?php foreach( $images as $image ): ?>
+                    <div class="service-item">
+                        <img src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <div class="slider-nav">
+                <?php foreach( $images as $image ): ?>
+                    <div class="service-item">
+                        <img src="<?php echo esc_url($image['sizes']['thumbnail']); ?>" alt="Thumbnail of <?php echo esc_url($image['alt']); ?>" />
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endif; endwhile; ?>
+</div>
+
+<script>
+// 
+jQuery(document).ready(function(){
+        jQuery('.slider-for').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: true,
+            autoplay: true,
+            fade: true,
+            asNavFor: '.slider-nav'
+        });
+        jQuery('.slider-nav').slick({
+            slidesToShow: 10,
+            slidesToScroll: 1,
+            asNavFor: '.slider-for',
+            dots: false,
+            arrows: true,
+            autoplay: true,
+            centerMode: true,
+            focusOnSelect: true,
+            responsive: [
+            {
+                breakpoint: 1324,
+                settings: {
+                    slidesToShow: 8,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 6,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 300,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1
+                }
+            }
+        ]
+        });
+        
+    });
+</script>
+<!-- Theme option -->
+<div class="container">
+    <div class="row">
+        <?php 
+        $getpost = new WP_query(); 
+        $getpost->query('post_status=publish&showposts=1&post_type=post&cat=4');
+        global $wp_query; 
+        $wp_query->in_the_loop = true;
+        while ($getpost->have_posts()) : $getpost->the_post();
+        ?>
+            <div class="col-md-6 col-12 orverview-content">
+                <h3><?php the_title(); ?></h3>
+                <p><?php the_content(); ?></p>
+            </div>
+        <?php endwhile; wp_reset_postdata(); ?>
+        <div class="col-md-6 col-12 orverview-carousel">
+            <div class="slider-for">
+                <?php global $sh_option; ?>
+                <?php $i = 0; ?>
+                <?php foreach( $sh_option['home-3'] as $slide ) : ?>
+                    <div class="orverview-item"> 
+                        <img src="<?php echo $sh_option['home-3'][$i]['image']; ?>" alt=""/>
+                    </div>
+                <?php $i++; ?>
+                <?php endforeach; ?>
+            </div>	
+            <div class="slider-nav">
+                <?php global $sh_option; ?>
+                <?php $i = 0; ?>
+                <?php foreach( $sh_option['home-3'] as $slide ) : ?>
+                    <div class="orverview-item"> 
+                        <img src="<?php echo $sh_option['home-3'][$i]['image']; ?>" alt=""/>
+                    </div>
+                <?php $i++; ?>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+    <div class="scroll-pages">
+        <a href="#location">
+            <div class="scroll-downs">
+                <div class="mousey">
+                    <div class="scroller"></div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<script>
+// 
+$(document).ready(function(){
+        $('.slider-for').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: true,
+            autoplay: true,
+            fade: true,
+            asNavFor: '.slider-nav'
+        });
+        $('.slider-nav').slick({
+            slidesToShow: 6,
+            slidesToScroll: 1,
+            asNavFor: '.slider-for',
+            dots: false,
+            arrows: false,
+            autoplay: true,
+            centerMode: true,
+            focusOnSelect: true,
+            responsive: [
+            {
+                breakpoint: 1324,
+                settings: {
+                    slidesToShow: 5,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 300,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1
+                }
+            }
+        ]
+        });
+        
+    });
+</script>
