@@ -33,7 +33,6 @@ function b3m_wrap_widget_titles( array $params ) {
         
 }
 
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.3433885844865!2d105.7863357149324!3d21.018941886003628!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135aba3c3aa3c97%3A0xc7ed60d62bbb599d!2zQ8O0bmcgdHkgTHXhuq10IEFsYWRpbg!5e0!3m2!1svi!2skr!4v1586430600911!5m2!1svi!2skr" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
 
 Redux::setSection( $opt_name, array(
     'title'            => __( 'Thư viện ảnh', 'shtheme' ),
