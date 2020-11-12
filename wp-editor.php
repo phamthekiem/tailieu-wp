@@ -1209,3 +1209,33 @@ $(document).ready(function(){
         
     });
 </script>
+
+function add_search_form($items, $args) {
+
+if( $args->theme_location == 'menu-1' ){
+
+    $items .= '<li class="icon-search"><a><i class="fas fa-search" aria-hidden="true"></i>'
+
+    . '<form role="search" method="get" class="search-form" action="'.home_url( '/' ).'">'
+
+    . '<label>'
+
+    . '<span class="screen-reader-text">' . _x( 'Search for:', 'label' ) . '</span>'
+
+    . '<input type="search" class="search-field" placeholder="' . esc_attr_x( 'Tìm kiếm...', 'placeholder' ) . '" value="' . get_search_query() . '" name="s" title="' . esc_attr_x( 'Search for:', 'label' ) . '" />'
+
+    . '</label>'
+
+    . '<input type="submit" class="search-submit" value="'. esc_attr_x('Search', 'submit button') .'" />'
+
+    . '</form>'
+
+    . '</a></li>';
+
+}
+
+return $items;
+
+}
+
+add_filter('wp_nav_menu_items', 'add_search_form', 10, 2);
