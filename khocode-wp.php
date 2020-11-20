@@ -1305,6 +1305,8 @@ function get_link_img_post(){
 
 17.Code share bài viết liên mạng xã hội
 
+<iframe src="https://www.facebook.com/plugins/like.php?href=<?php the_permalink(); ?>&width=450&layout=standard&action=like&size=small&share=true&height=35&appId=532700227637167" width="128" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+
 <div id="fb-root"></div>
 <script>
 (function(d, s, id) {

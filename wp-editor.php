@@ -55,6 +55,8 @@ array(
     'compiler' => 'true',
 ),
 
+[shblog posts_per_page="8" categories="6"  style="4"]
+
 <img src="<?php echo $sh_option['opt_image4']['url'] ?>" alt="<?php echo $sh_option['opt_image4']['url'] ?>">
 
 <div class="slick-carousel list-products" data-item="6" data-item_md="6" data-item_sm="4" data-item_mb="2" data-row="1" data-dots="false" data-arrows="true" data-vertical="false">
@@ -125,6 +127,15 @@ function content_tab_thongso() {
 
 }
 
+
+jQuery('a[data-toggle="tab"]').on("shown.bs.tab", function (event) {
+        event.target;
+        event.relatedTarget;
+        jQuery(".slick-carousel").slick("setPosition");
+    });
+
+
+    
 
 add_action( 'phpmailer_init', function( $phpmailer ) {
     if ( !is_object( $phpmailer ) )
@@ -1238,3 +1249,74 @@ return $items;
 }
 
 add_filter('wp_nav_menu_items', 'add_search_form', 10, 2);
+
+
+
+<!-- Circle -->
+<div class="service-content">
+    <div class="service-image"></div>
+    <div class="ring-circle">
+        <img src="<?php echo $sh_option['home-1_1'][$i]['image']; ?>">
+    </div>
+    <h4><?php echo $sh_option['home-1_1'][$i]['title']; ?></h4>
+</div>
+<style>
+.service-content {
+	text-align: center;
+	margin-top: 10px;
+	position: relative;
+}
+.service-content .ring-circle {
+	height: 80px;
+	width: 80px;
+	background-color: #fccc08;
+	border-radius: 50%;
+	margin: 0 auto;
+	margin-bottom: 15px;
+	padding: 5px;
+	position: absolute;
+	top: 0;
+    left: 0;
+    right: 0;
+}
+.service-content .ring-circle img {
+	margin: 0 auto;
+	padding-top: 15px;
+}
+.service-content h4 {
+	font-size: 16px;
+	color: #fff;
+	font-weight: 500;
+	text-transform: uppercase;
+}
+
+.service-content .service-image {
+	width: 95px;
+    height: 95px;
+    margin-left: 80px;
+    margin-top: -7px;
+    border: 2px solid #fccc08;
+	border-radius: 100%;
+	-webkit-animation: phonering-alo-circle-fill-anim 2.3s infinite ease-in-out;
+	animation: phonering-alo-circle-fill-anim 2.3s infinite ease-in-out;
+	transition: all .5s;
+	-webkit-transform-origin: 50% 50%;
+	-ms-transform-origin: 50% 50%;
+	transform-origin: 50% 50%;
+	margin-bottom: 15px;
+}
+@-webkit-keyframes phonering-alo-circle-fill-anim {
+	0% {
+		-webkit-transform: rotate(0) scale(0.7) skew(1deg);
+		opacity: 0.6;
+	}
+	50% {
+		-webkit-transform: rotate(0) scale(1) skew(1deg);
+		opacity: 1;
+	}
+	100% {
+		-webkit-transform: rotate(0) scale(0.7) skew(1deg);
+		opacity: 0.6;
+	}
+}
+</style>
