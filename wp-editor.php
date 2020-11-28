@@ -91,6 +91,11 @@ array(
 
 echo '<h2 class="heading"><a title="'. get_dm_name( $idpost,'product_cat' ) .'" href="'. get_dm_link( $idpost,'product_cat' ) .'">'. get_dm_name( $idpost,'product_cat' ) .'</a><a class="xemtatca" title="'. get_dm_name( $idpost,'product_cat' ) .'" href="'. get_dm_link( $idpost,'product_cat' ) .'">Xem thêm <i class="fas fa-arrow-circle-right"></i></a></h2>';
 
+$id = 15;
+if( $term = get_term_by( 'id', $id, 'product_cat' ) ) {
+    echo '<h2 class="heading">'.$term->name.'</h2>';
+    echo '<p class="description">'.$term->description.'</p>';
+}
 
 <!-- zalo -->
 <div class="chat_zalo">
