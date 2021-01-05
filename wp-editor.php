@@ -70,6 +70,18 @@ array(
         <?php endforeach; ?>
 </div>
 
+//* Insert SPAN tag into widgettitle
+add_filter( 'dynamic_sidebar_params', 'b3m_wrap_widget_titles', 20 );
+function b3m_wrap_widget_titles( array $params ) {
+        
+        // $params will ordinarily be an array of 2 elements, we're only interested in the first element
+        $widget =& $params[0];
+        $widget['before_title'] = '<div class="widgettitle"><span class="sidebar-title">';
+        $widget['after_title'] = '</span></div>';
+        
+        return $params;
+        
+}
 
 <?php if (qtranxf_getLanguage() == 'ngôn ngữ tưng ứng') {
     // do stuff
