@@ -85,6 +85,35 @@ array(
         <?php endforeach; ?>
 </div>
 
+<script>
+    $(document).ready(function(){
+        $('.Vertical-Slider').slick({ 
+            autoplay: true,
+            autoplaySpeed: 3000,
+            speed: 800,
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            pauseOnHover: false,
+            arrows: false,
+            dots: false,
+            cssEase: 'linear',
+            vertical: true,
+            verticalSwiping: true,
+            responsive: [
+                {   breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 4
+                    }
+                },
+                {   breakpoint: 776,
+                    settings: {
+                        slidesToShow: 4
+                    }
+            }]
+        });
+    });
+</script>
+
 //* Insert SPAN tag into widgettitle
 add_filter( 'dynamic_sidebar_params', 'b3m_wrap_widget_titles', 20 );
 function b3m_wrap_widget_titles( array $params ) {
