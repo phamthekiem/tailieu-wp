@@ -33,6 +33,7 @@ wpfomo
 
 [wow class="lightSpeedIn" duration="4"]Nội dung cần chuyển động[/wow]
 
+<?php if ( $i % 2 == 0 ){ echo 'order-2';} else {echo 'order-1';} ?>
 
 //* Do NOT include this comment or the opening php tag above
 //* Insert SPAN tag into widgettitle
