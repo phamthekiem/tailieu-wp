@@ -213,7 +213,17 @@ add_action( 'phpmailer_init', function( $phpmailer ) {
     $phpmailer->FromName   = 'Thiết kế web 3B - thietkeweb3b.com';
 });
 
-
+<script>
+window.onbeforeunload = function (e) {
+e = e || window.event;
+// For IE and Firefox prior to version 4
+if (e) {
+e.returnValue = 'Sure?';
+}
+// For Safari
+return 'Sure?';
+};
+</script>
 
 remove_action( 'woocommerce_before_shop_loop', 'woocommerce_result_count', 20 );
 remove_action( 'woocommerce_archive_description', 'woocommerce_product_archive_description', 10 );
