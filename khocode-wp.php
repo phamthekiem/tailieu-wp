@@ -110,7 +110,7 @@ $nd_page = new WP_Query(array(
 			</div>
 		</div>
 	</div>
-	</div>
+</div>
 
 <!-- --------------Hướng dẫn Woocommerce--------------- -->
 
