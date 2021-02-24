@@ -36,6 +36,82 @@ $nd_page = new WP_Query(array(
 // nội dung bạn cần lấy : tiêu đề, nội dung, thông tin mô tả
 <?php endwhile ; wp_reset_query() ;?>
 
+//Tabs menu
+<div class="block-content">
+	<div class="container">
+		<div class="product-nav">
+			<?php
+			$list_product_nav = wp_get_nav_menu_items($sh_option['product_menu']);
+			$i = 1;
+			$j = 1;
+			$k = 1;
+			?>
+			<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+				<?php foreach ($list_product_nav as $prouduct_nav) : ?>
+					<li class="nav-item" role="presentation">
+						<a class="nav-link<?php echo ($i === 1) ? ' active' : '' ?>" id="<?php echo $prouduct_nav->ID; ?>-tab" data-toggle="pill" href="#a<?php echo $prouduct_nav->ID; ?>-pill" role="tab" aria-controls="<?php echo $prouduct_nav->ID ?>-pill" aria-selected="true">
+							<?php echo $prouduct_nav->title ?>
+						</a>
+					</li>
+				<?php $i++;
+				endforeach; ?>
+			</ul>
+			<div class="tab-content" id="pills-tabContent">
+				<?php
+				foreach ($list_product_nav as $prouduct_nav) :
+
+					$args = array(
+						'post_type' => 'du-an',
+						'tax_query' => array(
+							array(
+								'taxonomy' => 'danh-muc-du-an',
+								'field' => 'id',
+								'terms' => $prouduct_nav->object_id,
+							)
+						)
+					);
+
+					$projects = new WP_Query($args);
+
+					if ($projects->have_posts()) : ?>
+						<div class="tab-pane fade<?php echo ($j === 1) ? '  show active' : '' ?>" id="a<?php echo $prouduct_nav->ID; ?>-pill" role="tabpanel" aria-labelledby="<?php echo $prouduct_nav->ID; ?>-tab">
+							<div class="product-list slick-carousel" data-infinite="false" data-item_mb="1" data-item="3">
+								<div class="product-col">
+									<?php
+									while ($projects->have_posts()) : $projects->the_post(); ?>
+										<div class="project-item">
+											<a href="<?php the_permalink() ?>" class="project-link d-block">
+												<div class="project-image">
+													<img src="<?php the_post_thumbnail_url() ?>" alt="project-image">
+												</div>
+												<div class="project-title">
+													<?php the_title() ?>
+												</div>
+											</a>
+										</div>
+										<?php
+										echo ($k % 2 == 0 && $k !== $projects->post_count) ? '</div><div class="product-col">' : '' ?>
+									<?php $k++;
+									endwhile;
+									wp_reset_postdata(); ?>
+								</div>
+							</div>
+						</div>
+					<?php
+					else : ?>
+						<div class="tab-pane fade<?php echo ($j === 1) ? '  show active' : '' ?>" id="a<?php echo $prouduct_nav->ID; ?>-pill" role="tabpanel" aria-labelledby="<?php echo $prouduct_nav->ID; ?>-tab">
+							<p class="alert alert-warning">Đang cập nhật...</p>
+						</div>
+				<?php
+					endif;
+					$j++;
+					$k = 1;
+				endforeach; ?>
+			</div>
+		</div>
+	</div>
+	</div>
+
 <!-- --------------Hướng dẫn Woocommerce--------------- -->
 
 w1. Hướng dẫn hiển thị sản phẩm trong giỏ hàng WooCommerce
