@@ -1396,3 +1396,106 @@ add_filter('wp_nav_menu_items', 'add_search_form', 10, 2);
 	}
 }
 </style>
+
+
+
+TÌM KIẾM
+
+<div class="menu-search">
+    <div class="container">                                       
+        <div class="dropdown">
+            <button class="btn" type="button" data-toggle="dropdown"><i class="fa fa-search"></i></button>
+            <div class="dropdown-menu">
+                <form action="<?php bloginfo('url'); ?>/" method="GET" role="form">
+                    <div class="form-group">
+                        <input type="text" name="s" class="form-control" id="" placeholder="Từ khóa">
+                    </div>
+                    <button type="submit" class="btn">Tìm kiếm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/*MEnu*/
+.menu-search {
+	position: absolute;
+	right: 0;
+	top: 18px;
+}
+.menu-search button {
+	border: 1px solid #fa9521;
+	border-radius: 50%;
+	width: 35px;
+	height: 35px;
+	color: #fa9521;
+	background: no-repeat;
+}
+.menu-search .dropdown-menu form {
+	position: relative;
+}
+.menu-search .dropdown-menu {
+	width: 300px;
+	right: 0 !important;
+	left: unset !important;
+	top: 10px !important;
+	border: none !important;
+	padding: 0;
+}
+.menu-search .dropdown-menu input {
+	width: 100%;
+	height: 40px;
+	border: 1px solid #ddd;
+	padding-left: 5px;
+	outline: 0;
+}
+.menu-search .dropdown-menu .form-group {
+	margin-bottom: 0;
+}
+.menu-search .dropdown-menu button {
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: auto;
+	border-radius: 0;
+	height: 40px;
+	background: #fa9521;
+	color: #fff;
+}
+
+/**/
+
+@media (max-width: 767px) {
+	/*Menu*/
+	.menu-search {
+	    position: relative;
+	    right: 30px;
+	    top: -10px;	
+	}
+	.menu-search button {
+	    display: none;
+	}
+	.dropdown-menu {
+	    position: relative;
+	    display: block;
+	}
+	.menu-search .dropdown-menu {
+	    width: 220px;
+	}
+	.menu-search .dropdown-menu button {
+	    display: block;
+	    height: 35px;
+	    font-size: 12px;
+    	padding: 0 5px;
+	}
+	.menu-search .dropdown-menu input {
+	    height: 35px;
+	}
+	.carousel-item img {
+	    height: 250px;
+	}
+
+}
+</style>
+
