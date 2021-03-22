@@ -1492,9 +1492,7 @@ TÌM KIẾM
 	.menu-search .dropdown-menu input {
 	    height: 35px;
 	}
-	.carousel-item img {
-	    height: 250px;
-	}
+	
 
 }
 </style>
