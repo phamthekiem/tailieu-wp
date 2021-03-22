@@ -77,6 +77,8 @@ array(
 
 [shblog posts_per_page="8" categories="6"  style="4"]
 
+<?php echo do_shortcode('[wtb_static_block static="1254"]'); ?>
+
 <img src="<?php echo $sh_option['opt_image4']['url'] ?>" alt="<?php echo $sh_option['opt_image4']['url'] ?>">
 
 <div class="slick-carousel list-products" data-item="6" data-item_md="6" data-item_sm="4" data-item_mb="2" data-row="1" data-dots="false" data-arrows="true" data-vertical="false">
