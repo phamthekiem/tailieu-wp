@@ -19,6 +19,7 @@ add_filter('pre_site_transient_update_core', 'remove_core_updates');
 add_filter('pre_site_transient_update_plugins', 'remove_core_updates');
 add_filter('pre_site_transient_update_themes', 'remove_core_updates');
 
+add_theme_support('woocommerce');
 
 
 NotificationX
@@ -121,6 +122,27 @@ array(
     });
 </script>
 
+// FIX menu
+jQuery(window).bind('scroll', function() {
+    var navHeight = 165;
+    if (jQuery(window).scrollTop() > navHeight) {
+        jQuery('.main-menu').addClass('fixed');
+    }
+    else {
+        jQuery('.main-menu').removeClass('fixed');
+    }
+});
+
+// OR
+
+jQuery(window).scroll(function(){
+    if (jQuery(window).scrollTop() > 150) {
+        jQuery('.header-main').addClass('header-sticky');
+    } else {
+        jQuery('.header-main').removeClass('header-sticky');
+    }
+});
+
 //* Insert SPAN tag into widgettitle
 add_filter( 'dynamic_sidebar_params', 'b3m_wrap_widget_titles', 20 );
 function b3m_wrap_widget_titles( array $params ) {
@@ -153,6 +175,66 @@ function b3m_wrap_widget_titles( array $params ) {
 
 
 echo '<h2 class="heading"><a title="'. get_dm_name( $idpost,'product_cat' ) .'" href="'. get_dm_link( $idpost,'product_cat' ) .'">'. get_dm_name( $idpost,'product_cat' ) .'</a><a class="xemtatca" title="'. get_dm_name( $idpost,'product_cat' ) .'" href="'. get_dm_link( $idpost,'product_cat' ) .'">Xem thêm <i class="fas fa-arrow-circle-right"></i></a></h2>';
+
+<div class="homepage-product">
+
+    <?php
+    if (class_exists('WooCommerce')) {
+        if ($sh_option['list_cat_product']) {
+            $list_cat_product = $sh_option['list_cat_product'];
+            if ($sh_option['number_product']) {
+                $number_product = $sh_option['number_product'];
+            }
+            if ($sh_option['number_product_row']) {
+                $number_product_row = $sh_option['number_product_row'];
+            }
+
+            echo '<div class="row product-wrap">';
+            foreach ($list_cat_product as $key => $idpost) {
+                $args = array(
+                    'type' => 'product',
+                    'child_of' => $idpost,
+                    'taxonomy' => 'product_cat',
+                );
+                $child_categories = get_categories($args);
+
+                $thumbnail_id = get_woocommerce_term_meta($idpost, 'thumbnail_id', true);
+                echo '<div class="heading-product-custom">';
+                echo '<h2 class="heading"><a title="' . get_dm_name($idpost, 'product_cat') . '">' . get_dm_name($idpost, 'product_cat') . '</a><span class="open">&#9776;</span></h2>' . get_dm_name($idpost, 'submenu_product');
+                echo '<ul class="heading-sub">';
+                $i  = 1;
+                foreach ($child_categories as $child_category) {
+                    if ($i <= 5) {
+                        echo '<li>';
+                        echo '<a class="child-category" href="' . get_term_link((int)$child_category->term_id, 'product_cat') . '">' . $child_category->name . '</a>';
+                        echo '</li>';
+                    }
+                    $i++;
+                }
+
+                echo '</ul>';
+                //echo '<a href="' . get_term_link((int)$idpost, 'product_cat') . '" class="font-weight-bold view-all-cate d-none d-lg-block">Xem tất cả</a>';
+                echo '</div>';
+                echo '<div class="col-12 p-0">';
+                echo '<div class="row">';
+                echo '<div class="col-md-9 col-12">';
+                echo do_shortcode('[shproduct posts_per_page="' . $number_product . '" categories="' . $idpost . '" numcol="' . $number_product_row . '"]');
+                echo '</div>';
+
+                echo '<div class="col-md-3 col-12">';
+                echo '<img class="img-fluid" src="' . wp_get_attachment_url($thumbnail_id) . '">';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+            }
+
+            echo '</div>';
+        }
+    }
+    ?>
+
+</div>
+
 
 $id = 15;
 if( $term = get_term_by( 'id', $id, 'product_cat' ) ) {
@@ -212,10 +294,10 @@ add_action( 'phpmailer_init', function( $phpmailer ) {
     $phpmailer->Host       = 'smtp.gmail.com';
     $phpmailer->SMTPAuth   = 1;
     $phpmailer->Port       = 587;
-    $phpmailer->Username   = 'trunggian06.web3b@gmail.com';
-    $phpmailer->Password   = 'dikasolehngidckr';
+    $phpmailer->Username   = 'trunggian10.web3b@gmail.com';
+    $phpmailer->Password   = 'gbfdsweukfnhawxb';
     $phpmailer->SMTPSecure = 'TLS';
-    $phpmailer->From       = 'trunggian06.web3b@gmail.com';
+    $phpmailer->From       = 'trunggian10.web3b@gmail.com';
     $phpmailer->FromName   = 'Thiết kế web 3B - thietkeweb3b.com';
 });
 
@@ -334,6 +416,7 @@ function myFunction() {
 
 <?php 
     add_filter('use_block_editor_for_post', '__return_false');
+    add_filter( 'use_widgets_block_editor', '__return_false' );
 
     // Lazload wp 5.5
     

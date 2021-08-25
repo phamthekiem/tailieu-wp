@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<style type="text/css">
+
+.see-more-pc {
+  position: fixed;
+  right: 0;
+  top: 8vh;
+  z-index: 9999;
+  width: 52px;
+  height: 56px;
+  background-color: #03375e;
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+  cursor: pointer;
+}
+/* line 1170, style.less */
+.see-more-pc img {
+  padding: 10px;
+  animation: rotate_square linear 3s infinite;
+}
+@keyframes rotate_square {
+  /* line 1174, style.less */
+  10% {
+    transform: rotate(72deg);
+    animation-delay: 0.3s;
+  }
+  /* line 1178, style.less */
+  20% {
+    transform: rotate(144deg);
+    animation-delay: 0.3s;
+  }
+  /* line 1182, style.less */
+  30% {
+    transform: rotate(216deg);
+    animation-delay: 0.3s;
+  }
+  /* line 1186, style.less */
+  40% {
+    transform: rotate(288deg);
+    animation-delay: 0.3s;
+  }
+  /* line 1190, style.less */
+  50% {
+    transform: rotate(360deg);
+    animation-delay: 0.3s;
+  }
+  /* line 1194, style.less */
+  60% {
+    transform: rotate(432deg);
+    animation-delay: 0.3s;
+  }
+  /* line 1198, style.less */
+  70% {
+    transform: rotate(504deg);
+    animation-delay: 0.3s;
+  }
+  /* line 1202, style.less */
+  80% {
+    transform: rotate(576deg);
+    animation-delay: 0.3s;
+  }
+  /* line 1206, style.less */
+  90% {
+    transform: rotate(648deg);
+    animation-delay: 0.3s;
+  }
+  /* line 1210, style.less */
+  100% {
+    transform: rotate(720deg);
+    animation-delay: 0.3s;
+  }
+}
+@media (max-width: 480px) {
+  /* line 1216, style.less */
+  .see-more-pc {
+    display: none;
+  }
+}
+/* line 1220, style.less */
+.see-more-show {
+  width: 60px;
+  right: 85px;
+  transition: .55s;
+}
+/* line 1225, style.less */
+.fix-item {
+  width: 95px;
+  position: fixed;
+  right: 0;
+  top: 8vh;
+  background-color: #03375e;
+  padding: 15px 10px;
+  z-index: 9999;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  display: none;
+}
+/* line 1236, style.less */
+.fix-item .see-more-mb {
+  display: none;
+}
+/* line 1240, style.less */
+.fix-item .par .item {
+  text-align: center;
+  border: 1px solid #527691;
+  border-radius: 5px;
+  padding: 15px 10px;
+  margin-bottom: 15px;
+}
+/* line 1246, style.less */
+.fix-item .par .item:last-child {
+  margin-bottom: 0;
+}
+/* line 1249, style.less */
+.fix-item .par .item p {
+  font-size: 13px;
+  font-weight: normal;
+  color: #fff;
+  font-family: MYRIADPRO-REGULAR;
+  padding-top: 10px;
+}
+@media (max-width: 480px) {
+  /* line 21, style.less */
+  .fix-item .par .item p {
+    font-size: 11px;
+  }
+}
+/* line 1255, style.less */
+.fix-item .par .item .img {
+  position: relative;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+/* line 1262, style.less */
+.fix-item .par .item:first-child .img {
+  background: url(../images/fix-item/img1.png);
+  width: 23px;
+  height: 25px;
+}
+/* line 1269, style.less */
+.fix-item .par .item:nth-child(2) .img {
+  background: url(../images/fix-item/img2.png);
+  width: 44px;
+  height: 23px;
+}
+/* line 1276, style.less */
+.fix-item .par .item:nth-child(3) .img {
+  background: url(../images/fix-item/img3.png);
+  width: 25px;
+  height: 25px;
+}
+/* line 1283, style.less */
+.fix-item .par .item:last-child .img {
+  background: url(../images/fix-item/img4.png);
+  width: 30px;
+  height: 21px;
+}
+/* line 1289, style.less */
+.fix-item .par .item:hover {
+  background-color: #fff;
+}
+/* line 1291, style.less */
+.fix-item .par .item:hover p {
+  color: #03375e;
+}
+/* line 1295, style.less */
+.fix-item .par .item:hover:first-child .img {
+  background: url(../images/fix-item/img5.png);
+}
+/* line 1300, style.less */
+.fix-item .par .item:hover:nth-child(2) .img {
+  background: url(../images/fix-item/img6.png);
+}
+/* line 1305, style.less */
+.fix-item .par .item:hover:nth-child(3) .img {
+  background: url(../images/fix-item/img7.png);
+}
+/* line 1310, style.less */
+.fix-item .par .item:hover:last-child .img {
+  background: url(../images/fix-item/img8.png);
+}
+@media (max-width: 480px) {
+  /* line 1317, style.less */
+  .fix-item {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    top: unset;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0;
+    border: 1px solid #527691;
+    display: block;
+    padding: 5px;
+  }
+  /* line 1328, style.less */
+  .fix-item .see-more-mb {
+    display: block;
+    text-align: center;
+    font-size: 17px;
+    color: #fff;
+    padding: 5px 0;
+    font-family: MYRIADPRO-REGULAR;
+    animation: animate_small linear 1s infinite;
+  }
+  @keyframes animate_small {
+    /* line 1338, style.less */
+    20% {
+      opacity: 0.9;
+      animation-delay: 0.2s;
+    }
+    /* line 1342, style.less */
+    40% {
+      opacity: 0.7;
+      animation-delay: 0.2s;
+    }
+    /* line 1346, style.less */
+    60% {
+      opacity: 0.5;
+      animation-delay: 0.2s;
+    }
+    /* line 1350, style.less */
+    80% {
+      opacity: 0.3;
+      animation-delay: 0.2s;
+    }
+    /* line 1354, style.less */
+    100% {
+      opacity: 0.1;
+      animation-delay: 0.2s;
+    }
+  }
+  /* line 1359, style.less */
+  .fix-item .par {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+  /* line 1364, style.less */
+  .fix-item .par .item {
+    display: none;
+    -ms-flex: 0 0 48%;
+    flex: 0 0 48%;
+    max-width: 48%;
+    margin: 10px 1% 5px 1%;
+    padding: 10px;
+  }
+  /* line 1371, style.less */
+  .fix-item .par .item:last-child {
+    margin-bottom: 5px;
+  }
+}
+</style>
+<body>
+ <div class="see-more-pc"><img src="https://www.asl-corp.com/Content/resources/images/iconbx.png" alt=""></div>
+<div class="fix-item" style="display: none;">
+    <div class="see-more-mb"><img src="https://www.asl-corp.com/Content/resources/images/arrow-topw.png" alt=""></div>
+    <div class="par"><div class="item"><a href="/yeu-cau-bao-gia/yeu-cau-bao-gia" target=""><div class="img"></div>
+    <p><i class="fa fa-volume-control-phone" aria-hidden="true"></i></p></a></div><div class="item"><a href="/kiem-tra-booking" target=""><div class="img"></div>
+    <p>Booking</p></a></div><div class="item"><a href="/tra-cuu-thong-tin/kiem-tra-van-tai-don" target=""><div class="img"></div>
+    <p>Kiểm tra</p></a></div><div class="item"><a href="/hoi-dap" target=""><div class="img"></div>
+    <p>Q&amp;A</p></a></div></div>
+</div>
+
+<script type="text/javascript">
+    jQuery('.see-more-pc').click(function(){
+        if(!jQuery('.see-more-pc').hasClass('see-more-show'))
+        {
+            jQuery(this).addClass('see-more-show');
+            jQuery('.fix-item').show(300);
+        }else{
+            jQuery(this).removeClass('see-more-show');
+            jQuery('.fix-item').hide();
+        }
+    });
+</script>
+
+
+
+</body>
+</html>

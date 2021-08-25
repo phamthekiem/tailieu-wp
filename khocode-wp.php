@@ -443,6 +443,9 @@ $category->category_parent
 </section>
 
 
+<?php $categories = get_the_category(); ?>
+<p class="category"><?php echo esc_html( $categories[0]->name ); ?></p>
+
 <!--  -->
 
 W5. Hiển thị sản phẩm được đánh giá cao trong WooCommerce
@@ -1413,6 +1416,9 @@ function get_link_img_post(){
 	<a target="_blank" href="https://www.facebook.com/sharer.php?u=<?php the_permalink(); ?>"><i class="fa fa-facebook" aria-hidden="true"></i></a>
 	<a target="_blank" href="https://plus.google.com/share?url=<?php the_permalink(); ?>"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
 	<a target="_blank" href="https://twitter.com/share?url=<?php the_permalink(); ?>"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+	<a rel="nofollow" class="in" data-ok="false" href="https://www.linkedin.com/shareArticle?url=<?php the_permalink(); ?>" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+	<a rel="nofollow" class="pi" data-ok="false" href="https://pinterest.com/pin/create/bookmarklet/?url=<?php the_permalink(); ?>" target="_blank"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a>
+
 </span>
 
 <!--  -->
