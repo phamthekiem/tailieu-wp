@@ -143,6 +143,30 @@ jQuery(window).scroll(function(){
     }
 });
 
+// OR
+
+jQuery(document).ready(function(){
+    jQuery(window).bind('scroll', function() {
+    var navHeight = jQuery( window ).height() - 50;
+         if (jQuery(window).scrollTop() > navHeight) {
+            jQuery('.singleProduct-scroll').addClass('product-sticky');
+        }
+        else {
+            jQuery('.singleProduct-scroll').removeClass('product-sticky');
+        }
+    });
+});
+
+// 
+
+jQuery('a[href*="#"]').on('click', function(e){
+    jQuery('html,body').animate({
+        scrollTop: jQuery(jQuery(this).attr('href')).offset().top - 100
+    },800);
+    e.preventDefault();
+});
+
+
 //* Insert SPAN tag into widgettitle
 add_filter( 'dynamic_sidebar_params', 'b3m_wrap_widget_titles', 20 );
 function b3m_wrap_widget_titles( array $params ) {
@@ -351,6 +375,31 @@ add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_p
 	    });
 	</script>
 </div>
+
+.terms-description[data-readmore] {
+    transition: height 500ms;
+    overflow: hidden;
+}
+.terms-description {
+    position: relative;
+    overflow: hidden;
+}
+.terms-description[data-readmore]:after {
+    content: "";
+    position: absolute;
+    background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0), #ffffffc4, white);
+    background-image: linear-gradient(rgba(0, 0, 0, 0), #ffffffc4, white);
+    bottom: -2px;
+    width: 100%;
+    height: 20px;
+}
+.read-full {
+    text-align: center;
+}
+.read-full a {
+    color: #f1001b;
+    font-weight: 600;
+}
 
 
 //MENU
