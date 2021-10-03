@@ -37,6 +37,15 @@ $nd_page = new WP_Query(array(
 <?php endwhile ; wp_reset_query() ;?>
 
 //Tabs menu
+<?php  
+	array(
+    'id'       => 'list_cat_post',
+    'type'     => 'select',
+    'multi'    => false,
+    'title'    => __( 'Select categories', 'shtheme' ),
+    'data'      => 'menu',
+	),
+?>
 <div class="block-content">
 	<div class="container">
 		<div class="product-nav">
@@ -709,6 +718,46 @@ add_filter( 'woocommerce_get_price_html', 'devvn_oft_custom_get_price_html', 99,
 <?php endwhile;  wp_reset_postdata(); ?>
 
 <!--  -->
+
+1.2 => Hiển thị sản phẩm vừa xem 
+	<?php  
+		add_action( 'woocommerce_before_single_product','create_session_for_save_id_product' );
+		//add_action( 'woocommerce_single_product_summary','tung_test' ,1);
+		function create_session_for_save_id_product(){
+			// Start the session
+			session_start();
+			global $post;
+			$productId = $post->ID;
+				if(!isset($_SESSION['viewed_product'])){
+					$_SESSION['viewed_product'] = array();
+				}
+				if(!isset($_SESSION['viewed_product'][$productId])){
+					$_SESSION['viewed_product'][$productId] = time();
+				} 
+		}
+
+		// 
+		$list_id_product = array();
+		if(!empty($_SESSION['viewed_product'])):
+			foreach($_SESSION['viewed_product'] as $key => $value):
+				array_push($list_id_product,$key );
+			endforeach;
+		endif;
+	?>
+	<?php 
+	$args = array( 
+	'post_type' => 'product',
+	'post__in' => $list_id_product,
+	'posts_per_page' => $shownumber,
+	'post_status' => 'publish'
+	);
+	$wp_query = new WP_Query( $args );
+	if ( $wp_query->have_posts() ) : while ( $wp_query->have_posts() ) : $wp_query->the_post();
+	//thông tin sản phẩm ở đây
+	<?php endwhile; wp_reset_postdata(); endif; ?>
+
+
+// 
 
 2. Code hiển thị 10 sản phẩm theo danh mục sản phẩm
 
