@@ -114,6 +114,14 @@ $nd_page = new WP_Query(array(
 
 <!-- --------------Hướng dẫn Woocommerce--------------- -->
 
+<!-- Product gallery -->
+<?php  
+	global $product;
+	$thumb_id = array(get_post_thumbnail_id());
+	$attachment_ids = $product->get_gallery_image_ids();
+	$attachment_ids = array_merge($thumb_id,$attachment_ids);
+?>
+
 w1. Hướng dẫn hiển thị sản phẩm trong giỏ hàng WooCommerce
 
 <div class="top-cart-content pc">
