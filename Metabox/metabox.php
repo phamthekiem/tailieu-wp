@@ -132,6 +132,30 @@ function wc_meta_box_save( $post_id ) {
 
 
 // 
+/*--------------------------------*/
+
+// Text metabox
+add_action( 'add_meta_boxes', 'meta_box_new' );
+    function meta_box_new() {
+        add_meta_box( 'metabox-id', 'Nơi làm việc', 'workshop', 'post', 'normal', 'high' );
+    }
+
+    function workshop() {
+    ?>
+        <label for="metabox_text">Nơi làm việc</label>
+        <input type="text" name="metabox_text" id="metabox_text" />
+    <?php
+    }
+
+    function custom_metabox_save( $post_id ) {
+        $textbox_content = $_POST['metabox_text'];
+        update_post_meta( $post_id, 'metabox_out', $textbox_content );
+    }
+    add_action( 'save_post', 'custom_metabox_save' );
+
+<?php echo get_post_meta( $post->ID, 'metabox_out', true );?>
+
+/*--------------------------------*/
 
 
 // Use below code to show metabox values from anywhere
