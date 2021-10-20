@@ -135,25 +135,31 @@ function wc_meta_box_save( $post_id ) {
 /*--------------------------------*/
 
 // Text metabox
-add_action( 'add_meta_boxes', 'meta_box_new' );
-    function meta_box_new() {
-        add_meta_box( 'metabox-id', 'Nơi làm việc', 'workshop', 'post', 'normal', 'high' );
-    }
+function workshop_meta_box() {
+    add_meta_box( 'thong-tin', 'Nơi làm việc', 'workshop_output', 'post' );
+}
+add_action( 'add_meta_boxes', 'workshop_meta_box' );
 
-    function workshop() {
-    ?>
-        <label for="metabox_text">Nơi làm việc</label>
-        <input type="text" name="metabox_text" id="metabox_text" />
-    <?php
-    }
+/**Khai báo callback**/
+function workshop_output( $post ) {
+    $workshop_box = get_post_meta( $post->ID, '_workshop_box', true );
+    // Tạo trường Link Download
+    echo ( '<label for="workshop_box">Nhập vào nơi làm việc </label>' );
+    echo ('<input type="text" id="workshop_box" name="workshop_box" value="'.esc_attr( $workshop_box ).'" />');
+}
 
-    function custom_metabox_save( $post_id ) {
-        $textbox_content = $_POST['metabox_text'];
-        update_post_meta( $post_id, 'metabox_out', $textbox_content );
-    }
-    add_action( 'save_post', 'custom_metabox_save' );
 
-<?php echo get_post_meta( $post->ID, 'metabox_out', true );?>
+/**Lưu dữ liệu meta box khi nhập vào
+ @param post_id là ID của post hiện tại
+**/
+function workshop_box_save( $post_id ) {
+    $workshop_box = sanitize_text_field( $_POST['workshop_box'] );
+    update_post_meta( $post_id, '_workshop_box', $workshop_box );
+}
+add_action( 'save_post', 'workshop_box_save' );
+
+
+<?php echo get_post_meta( $post->ID, '_workshop_box', true ); 
 
 /*--------------------------------*/
 
