@@ -154,3 +154,16 @@ function wpseo_breadcrumb_remove_postname( $links ) {
 	}
 return $links;
 }
+
+
+
+// Rename Slug
+add_filter( 'register_post_type_args', 'wp_register_post_type_args', 10, 2 );
+function wp_register_post_type_args( $args, $post_type ) {
+
+    if ( 'property' === $post_type ) {
+        $args['rewrite']['slug'] = 'bat-dong-san';
+    }
+
+    return $args;
+}
