@@ -121,6 +121,57 @@ $nd_page = new WP_Query(array(
 	</div>
 </div>
 
+
+<!-- OR -->
+<section class="ourservice-page">
+		<div class="ourservice-menu">
+			<ul class="nav nav-tabs">
+				<?php  
+				$post_id = $post->ID;
+				$args = array(
+                    'post_type' 		=> 'service',
+                    'posts_per_page' 	=> -1,
+                );
+                $the_query = new WP_Query( $args );
+				while($the_query -> have_posts()) : $the_query -> the_post();
+					$class = ( get_the_ID() === $post_id ) ? 'active' : '';
+					echo '<li class="nav-item">
+					    <a class="nav-link '. $class .'" href="'. get_the_permalink( ) .'">'. get_the_title( ) .'</a>
+					</li>';
+				endwhile;
+				wp_reset_postdata();
+				?>
+			</ul>
+		</div>
+	  	<div class="tab-pane" id="<?php echo $cate->slug; ?>">
+			<?php 
+			// if( ! empty( $_GET['view'] ) && $_GET['view'] == '1' ) {
+				$images = get_field('service_gallery');
+				if( $images ): ?>
+					<div class="service-carousel">
+						<div class="slider-for">
+					        <?php foreach( $images as $image ): ?>
+				                <div class="service-item">
+				                	<img src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
+				                </div>
+					        <?php endforeach; ?>
+					   	</div>
+					   	<div class="slider-nav">
+					        <?php foreach( $images as $image ): ?>
+				                <div class="service-item">
+				                	<img src="<?php echo esc_url($image['sizes']['thumbnail']); ?>" alt="Thumbnail of <?php echo esc_url($image['alt']); ?>" />
+				                </div>
+					        <?php endforeach; ?>
+					   	</div>
+					</div>
+				<?php endif; 
+			// } else {
+			// 	echo '<div class="text-center"><a href="'. get_the_permalink( ) .'?view=1">'. get_the_post_thumbnail( get_the_ID(), 'full' ) .'</a></div>';
+			// }
+			?>
+		</div>
+	</section>
+
 <!-- --------------Hướng dẫn Woocommerce--------------- -->
 
 <!-- Product gallery -->
@@ -464,6 +515,28 @@ $category->category_parent
 <p class="category"><?php echo esc_html( $categories[0]->name ); ?></p>
 
 <!--  -->
+<?php 
+// Create product taxonomy
+function product_taxonomy() {
+    $labels = array(
+        'name' => 'Product',
+        'singular' => 'Products',
+        'menu_name' => 'Product category'
+    );
+    $args = array(
+        'labels'                     => $labels,
+        'hierarchical'               => false,
+        'public'                     => true,
+        'show_ui'                    => true,
+        'show_admin_column'          => true,
+        'show_in_nav_menus'          => true,
+        'show_tagcloud'              => true,
+    );
+    register_taxonomy('product', 'post', $args);
+}
+//add_action( 'init', 'product_taxonomy', 0 );
+
+?>
 
 W5. Hiển thị sản phẩm được đánh giá cao trong WooCommerce
 
@@ -645,7 +718,10 @@ w8. Hiển thị sản phẩm nổi bật trong WooCommerce (featured products)
 	    'terms'    => 'featured',
 	    'operator' => 'IN',
 	);
+	// OR
+	// 'post__in' => wc_get_featured_product_ids(),
 ?>
+
 <?php $args = array( 'post_type' => 'product','posts_per_page' => 10,'ignore_sticky_posts' => 1, 'tax_query' => $tax_query); ?>
 <?php $getposts = new WP_query( $args);?>
 <?php global $wp_query; $wp_query->in_the_loop = true; ?>
@@ -758,6 +834,29 @@ add_filter( 'woocommerce_get_price_html', 'devvn_oft_custom_get_price_html', 99,
 
 
 // 
+
+<!-- Post type -->
+<?php 
+  if (get_post_type( $post->ID ) == 'du-an' ) {
+      update_post_meta( $post->ID, '_last_viewed', current_time('mysql') );
+  ?>
+      <?php
+      $args = array(
+          'post_type' => 'du-an',
+          'posts_per_page' => 5,
+          'meta_key' => '_last_viewed',
+          'orderby' => 'meta_value',
+          'order' => 'DESC'
+      );
+      query_posts( $args ); ?>
+      <?php if( have_posts() ) : ?>
+          <?php while( have_posts() ) : the_post(); ?>
+              <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+          <?php endwhile;
+  } else { ?> 
+      <p>Không có dự án nào đã xem!</p>
+<?php } ?>
+<?php wp_reset_query(); ?>
 
 2. Code hiển thị 10 sản phẩm theo danh mục sản phẩm
 
@@ -1250,6 +1349,51 @@ function wpdocs_theme_setup() {
         }
     }
 ?>
+
+
+<!-- Bài viết liên quan Post Type -->
+<div class="prds-relates__bottoms mb-100s">
+  <?php
+      $postType = 'san-pham';
+      $taxonomyName = 'danh-muc-san-pham';
+      $taxonomy = get_the_terms(get_the_ID(), $taxonomyName);
+      if ($taxonomy){
+          $category_ids = array();
+          foreach($taxonomy as $individual_category) $category_ids[] = $individual_category->term_id;
+          $args = array( 
+              'post_type' =>  $postType,
+              'post__not_in' => array(get_the_ID()),
+              'posts_per_page' => 12,
+              'tax_query' => array(
+                  array(
+                      'taxonomy' => $taxonomyName,
+                      'field'    => 'term_id',
+                      'terms'    => $category_ids,
+                  ),
+              )
+          );
+         $my_query = new wp_query($args);
+         if( $my_query->have_posts() ):
+  ?>
+      <h2 class="titles-mains__alls titles-center__alls fs-35s mb-50s">SẢN PHẨM KHÁC</h2>
+      <div class="list-agricultural__pages">
+          <div class="row gutter-45">
+              <?php  while( $my_query->have_posts() ) : $my_query->the_post();  ?>
+                  <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                      <div class="items-prds__agricultural">
+                          <a href="<?php the_permalink() ?>" title="<?php the_title() ?>" class="img-prsd__agricultural">
+                              <?php echo get_the_post_thumbnail( get_the_id(), 'large', array( 'class' =>'thumnail', 'alt' => 'Sản phẩm') ); ?>
+                          </a>
+                          <div class="intros-prds__agricultural">
+                              <h3><a href="<?php the_permalink() ?>" class="name-prds__agricultural fs-20s"><?php the_title() ?></a></h3>
+                          </div>
+                      </div>
+                  </div>
+              <?php endwhile; ?>
+          </div>
+      </div>
+  <?php endif; wp_reset_postdata(); } ?>
+</div>
 
 <!-- Sản phẩm liên quan -->
 <?php
