@@ -1,3 +1,7 @@
+<IfModule mod_security.c>
+   SecFilterEngine Off
+</IfModule>
+
 <?
 
 define('WP_ALLOW_REPAIR', true);
