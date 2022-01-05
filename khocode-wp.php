@@ -797,6 +797,18 @@ add_filter( 'woocommerce_get_price_html', 'devvn_oft_custom_get_price_html', 99,
 
 1.2 => Hiển thị sản phẩm vừa xem 
 	<?php  
+//Function
+	function viewedProduct(){
+	session_start();
+	if(!isset($_SESSION["viewed"])){
+		$_SESSION["viewed"] = array();
+	}
+	if(is_singular('product')){
+		$_SESSION["viewed"][get_the_ID()] = get_the_ID();
+	}
+}
+add_action('wp', 'viewedProduct');
+// 
 		add_action( 'woocommerce_before_single_product','create_session_for_save_id_product' );
 		//add_action( 'woocommerce_single_product_summary','tung_test' ,1);
 		function create_session_for_save_id_product(){
@@ -830,7 +842,7 @@ add_filter( 'woocommerce_get_price_html', 'devvn_oft_custom_get_price_html', 99,
 	$wp_query = new WP_Query( $args );
 	if ( $wp_query->have_posts() ) : while ( $wp_query->have_posts() ) : $wp_query->the_post();
 	//thông tin sản phẩm ở đây
-	<?php endwhile; wp_reset_postdata(); endif; ?>
+	endwhile; wp_reset_postdata(); endif; ?>
 
 
 // 
