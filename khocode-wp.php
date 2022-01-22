@@ -124,52 +124,148 @@ $nd_page = new WP_Query(array(
 
 <!-- OR -->
 <section class="ourservice-page">
-		<div class="ourservice-menu">
-			<ul class="nav nav-tabs">
-				<?php  
-				$post_id = $post->ID;
-				$args = array(
-                    'post_type' 		=> 'service',
-                    'posts_per_page' 	=> -1,
-                );
-                $the_query = new WP_Query( $args );
-				while($the_query -> have_posts()) : $the_query -> the_post();
-					$class = ( get_the_ID() === $post_id ) ? 'active' : '';
-					echo '<li class="nav-item">
-					    <a class="nav-link '. $class .'" href="'. get_the_permalink( ) .'">'. get_the_title( ) .'</a>
-					</li>';
-				endwhile;
-				wp_reset_postdata();
-				?>
-			</ul>
-		</div>
-	  	<div class="tab-pane" id="<?php echo $cate->slug; ?>">
-			<?php 
-			// if( ! empty( $_GET['view'] ) && $_GET['view'] == '1' ) {
-				$images = get_field('service_gallery');
-				if( $images ): ?>
-					<div class="service-carousel">
-						<div class="slider-for">
-					        <?php foreach( $images as $image ): ?>
-				                <div class="service-item">
-				                	<img src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
-				                </div>
-					        <?php endforeach; ?>
-					   	</div>
-					   	<div class="slider-nav">
-					        <?php foreach( $images as $image ): ?>
-				                <div class="service-item">
-				                	<img src="<?php echo esc_url($image['sizes']['thumbnail']); ?>" alt="Thumbnail of <?php echo esc_url($image['alt']); ?>" />
-				                </div>
-					        <?php endforeach; ?>
-					   	</div>
-					</div>
-				<?php endif; 
-			// } else {
-			// 	echo '<div class="text-center"><a href="'. get_the_permalink( ) .'?view=1">'. get_the_post_thumbnail( get_the_ID(), 'full' ) .'</a></div>';
-			// }
+	<div class="ourservice-menu">
+		<ul class="nav nav-tabs">
+			<?php  
+			$post_id = $post->ID;
+			$args = array(
+	    'post_type' 		=> 'service',
+	    'posts_per_page' 	=> -1,
+	);
+	$the_query = new WP_Query( $args );
+			while($the_query -> have_posts()) : $the_query -> the_post();
+				$class = ( get_the_ID() === $post_id ) ? 'active' : '';
+				echo '<li class="nav-item">
+				    <a class="nav-link '. $class .'" href="'. get_the_permalink( ) .'">'. get_the_title( ) .'</a>
+				</li>';
+			endwhile;
+			wp_reset_postdata();
 			?>
+		</ul>
+	</div>
+	<div class="tab-pane" id="<?php echo $cate->slug; ?>">
+		<?php 
+		// if( ! empty( $_GET['view'] ) && $_GET['view'] == '1' ) {
+			$images = get_field('service_gallery');
+			if( $images ): ?>
+				<div class="service-carousel">
+					<div class="slider-for">
+					<?php foreach( $images as $image ): ?>
+					<div class="service-item">
+						<img src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
+					</div>
+					<?php endforeach; ?>
+					</div>
+					<div class="slider-nav">
+					<?php foreach( $images as $image ): ?>
+					<div class="service-item">
+						<img src="<?php echo esc_url($image['sizes']['thumbnail']); ?>" alt="Thumbnail of <?php echo esc_url($image['alt']); ?>" />
+					</div>
+					<?php endforeach; ?>
+					</div>
+				</div>
+			<?php endif; 
+		// } else {
+		// 	echo '<div class="text-center"><a href="'. get_the_permalink( ) .'?view=1">'. get_the_post_thumbnail( get_the_ID(), 'full' ) .'</a></div>';
+		// }
+		?>
+	</div>
+</section>
+
+<!-- Tabs cate -->
+<section class="content-pages__alls">
+	<div class="tops-navs__pages mb-115s">
+	    <div class="container">
+		<ul class="nav-pages__alls mb-50s">
+		    <?php  
+			// $post_id = $term->term_id;
+			// $args = array(
+			//     'type'	=> 'dich-vu',
+			//     'taxonomy'	=> 'danh-muc-dich-vu',
+			//     'hide_empty' => 0,
+			// );
+			// $categories = get_categories($args);
+			// foreach ( $categories as $category ) {
+			//     $class = ( $category->term_id === $post_id ) ? 'active' : '';
+			//     echo '<li>';
+			//         echo '<a href="'.get_term_link($category->slug, 'danh-muc-dich-vu').'" class="'. $class .'" title="'.$category->name.'">'.$category->name.'</a>';
+			//     echo '</li>';
+			// }
+		    ?>
+		    <?php 
+			$post_id = get_the_ID();
+			$args = array(
+			    'post_type' => 'dich-vu',
+			    'post_status'   => 'publish',
+
+			);
+			$query = new WP_query($args);
+			while ( $query->have_posts() ) : $query->the_post();
+			    $class = ( $post->ID === $post_id ) ? 'active' : ''; 
+			    // var_dump($class);
+			?>
+			    <li>
+				<a href="<?php the_permalink(); ?>" class="<?php echo $class ?>" title="<?php the_title() ?>"><?php the_title() ?></a>
+			    </li>
+			<?php endwhile; wp_reset_postdata(); ?>
+		</ul>
+	    </div>
+	</div>
+	<div class="container">
+	    <div class="box-quocte__alls text-quocte__right mb-115s">
+		<div class="row gutter-100">
+		    <div class="col-lg-6">
+			<?php echo get_the_post_thumbnail( get_the_id(), 'large', array( 'class' =>'thumnail', 'alt' => 'Dịch vụ') ); ?>
+		    </div>
+		    <div class="col-lg-6">
+			<div class="text-quocte__alls fs-20s">
+			    <?php the_content() ?>
+			</div>
+		    </div>
 		</div>
+	    </div>
+	    <div class="content-advise__pages mb-150s">
+		<div class="row gutter-100">
+		    <div class="col-lg-8">
+			<div class="tag-content__advises">
+			    <ul class="nav tag-alls__pages" id="myTab" role="tablist">
+				<li class="">
+				    <a title="" class=" active" id="prds-mains-tag-1-tab" data-toggle="tab" href="#prds-mains-tag-1" role="tab" aria-controls="#prds-mains-tag-1" aria-selected="true"> Ưu điểm </a>
+				</li>
+				<li class="">
+				    <a title="" class="" id="prds-mains-tag-2-tab" data-toggle="tab" href="#prds-mains-tag-2" role="tab" aria-controls="prds-mains-tag-2" aria-selected="false">Quy trình tư vấn</a>
+				</li>
+				<li class="">
+				    <a title="" class="" id="prds-mains-tag-3-tab" data-toggle="tab" href="#prds-mains-tag-3" role="tab" aria-controls="prds-mains-tag-3" aria-selected="false">Hỏi - đáp ?</a>
+				</li>
+			    </ul>
+			    <div class="tab-content content-tags__alls">
+				<div class="tab-pane fade show active" id="prds-mains-tag-1" role="tabpanel" aria-labelledby="prds-mains-tag-1-tab">
+				    <?php the_field('advantages') ?>
+				</div>
+				<div class="tab-pane fade" id="prds-mains-tag-2" role="tabpanel" aria-labelledby="prds-mains-tag-2-tab">
+				    <?php the_field('Consulting-process') ?>
+				</div>
+				<div class="tab-pane fade" id="prds-mains-tag-3" role="tabpanel" aria-labelledby="prds-mains-tag-3-tab">
+				    <?php the_field('faq') ?>
+				</div>
+			    </div>
+			</div>
+		    </div>
+		    <div class="col-lg-4">
+			<div class="category-prds__pages mb-50s">
+			    <?php dynamic_sidebar('sidebar-service') ?>
+			</div>
+			<form class="form-dowlopad__files">
+			    <p class="fs-15s mb-30s">Hồ sơ năng lực <br> của DCV Invest</p>
+			    <a href="<?php the_field('link_download') ?>" class="btn-oranges__alls" download="" target="blank">
+				TẢI TẠI ĐÂY
+			    </a>
+			</form>
+		    </div>
+		</div>
+	    </div>
+	</div>
 	</section>
 
 <!-- --------------Hướng dẫn Woocommerce--------------- -->
