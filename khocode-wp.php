@@ -2190,3 +2190,177 @@ Tìm kiếm theo từ khóa kết hợp với category.
 <!-- -------------------------------------- -->
 
 Những hàm cơ bản trong wordpress
+
+<!-- Filter variable Woocommerce -->
+<?php
+
+/**
+ * The Template for displaying product archives, including the main shop page which is a post type archive
+ *
+ * This template can be overridden by copying it to yourtheme/woocommerce/archive-product.php.
+ *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you
+ * (the theme developer) will need to copy the new files to your theme to
+ * maintain compatibility. We try to do this as little as possible, but it does
+ * happen. When this occurs the version of the template file will be bumped and
+ * the readme will list any important changes.
+ *
+ * @see https://docs.woocommerce.com/document/template-structure/
+ * @package WooCommerce/Templates
+ * @version 3.4.0
+ */
+
+defined('ABSPATH') || exit;
+
+global $sh_option;
+
+get_header('shop');
+
+/**
+ * Hook: woocommerce_before_main_content.
+ *
+ * @hooked woocommerce_output_content_wrapper - 10 (outputs opening divs for the content)
+ * @hooked woocommerce_breadcrumb - 20
+ * @hooked WC_Structured_Data::generate_website_data() - 30
+ */
+do_action('woocommerce_before_main_content');
+
+global $wp;
+$current_url = home_url(add_query_arg(array(), $wp->request)) . '/';
+
+if (is_search()) {
+	$current_url = "";
+}
+?>
+<header class="woocommerce-products-header">
+	<?php if (apply_filters('woocommerce_show_page_title', true) && $sh_option['display-pagetitlebar'] == '0') : ?>
+		<h1 class="woocommerce-products-header__title page-title"><?php woocommerce_page_title(); ?></h1>
+	<?php endif; ?>
+
+	<div class="wrap-description">
+		<?php //if (get_field('category_desc', get_queried_object())) : ?>
+
+			<!-- <div class="taxonomy-product-description" data-controller="#readMore">
+				<?php //echo get_field('category_desc', get_queried_object()) ?>
+			</div> -->
+		<?php //else : ?>
+			<?php
+			/**
+			 * Hook: woocommerce_archive_description.
+			 *
+			 * @hooked woocommerce_taxonomy_archive_description - 10
+			 * @hooked woocommerce_product_archive_description - 10
+			 */
+			//do_action('woocommerce_archive_description');
+			?>
+		<?php //endif; ?>
+
+		<!-- <div class="btn btn-readmore" id="readMore"></div> -->
+	</div>
+</header>
+<?php
+
+// Check hierarchy in theme options
+if ($sh_option['display-hierarchy-woocommerce'] == '1' && !is_shop() && is_product_category()) {
+	// Content
+	$archive_object = get_queried_object();
+	$archive_id 	= $archive_object->term_id;
+	$args = array(
+		'parent'     	=> $archive_id,
+		'hide_empty'  	=> 0,
+		'taxonomy'    	=> $archive_object->taxonomy,
+	);
+	$categories = get_categories($args);
+	if ($categories) {
+		echo '<div class="list-categories">';
+		echo '<div class="row">';
+		/* Start the Loop */
+		foreach ($categories as $value) {
+			echo '<div class="col-md-3">';
+			echo '<div class="list-categories__item">';
+			echo '<a class="img" title="' . $value->name . '" href="' . get_term_link($value->term_id, $archive_object->taxonomy) . '">' . woocommerce_category_image($value->term_id) . '</a>';
+			echo '<h2><a class="" title="' . $value->name . '" href="' . get_term_link($value->term_id, $archive_object->taxonomy) . '">' . $value->name . '</a></h2>';
+			echo '</div>';
+			echo '</div>';
+		}
+		echo '</div>';
+		echo '</div>';
+	}
+} ?>
+
+<form action="<?php echo $current_url ?>" method="GET" class="filter-custom">
+	<?php if (is_search()) : ?>
+		<input type="hidden" name="post_type" value="product" autocomplete="off">
+		<input type="hidden" value="<?php echo $_GET['s'] ?>" name="s">
+	<?php endif; ?>
+	<div class="box-header-cat">
+		<div class="product-fillter">
+			<div class="product-filter-title">
+				Bộ lọc
+			</div>
+
+			<div class="btn btn-success d-block d-lg-none open-filter-mb">
+				<i class="fas fa-filter filter-icon"></i>
+			</div>
+
+
+			<div class="wrap-filter-select">
+				<div class="filter-mb-title font-weight-bold text-center mb-4 d-lg-none">
+					Bộ lọc sản phẩm
+				</div>
+				<div class="filter-box price-filter">
+					<div class="btn-price-filter">Giá <i class="fas fa-angle-down"></i></div>
+				</div>
+				<div class="wrap-slide-price d-flex flex-column">
+					<input type="text" class="js-range-slider">
+					<input type="hidden" name="min_price" class="filter-price-min">
+					<input type="hidden" name="max_price" class="filter-price-max">
+					<hr>
+					<div class="d-flex">
+						<div class="btn btn-danger w-50 mr-2 btn-sm close-filter-price">
+							Đóng
+						</div>
+						<button type="submit" class="w-50 ml-2 btn btn-success btn-sm">
+							Lọc
+						</button>
+					</div>
+				</div>
+				<?php
+				$attribute_taxonomies = wc_get_attribute_taxonomies();
+				foreach ($attribute_taxonomies as $taxo) : ?>
+					<select class="filter-box" name="filter_<?php echo $taxo->attribute_name ?>" onchange="this.form.submit()">
+						<option value=""><?php echo $taxo->attribute_label ?></option>
+						<?php
+						$terms = get_terms("pa_" . $taxo->attribute_name);
+						foreach ($terms as $term) : ?>
+							<option value="<?php echo $term->slug ?>" <?php echo ($_GET['filter_' . $taxo->attribute_name] === $term->slug)  ? 'selected' : '' ?>>
+								<?php echo $term->name ?>
+							</option>
+						<?php
+						endforeach; ?>
+					</select>
+				<?php endforeach; ?>
+				<div class="btn btn-danger w-100 close-filter-mb d-lg-none">
+					Đóng
+				</div>
+			</div>
+		</div>
+		<div class="product-order">
+			<div class="product-filter-title text-right">
+				Sắp xếp
+			</div>
+			<div class="product-fillter product-fillter-order">
+				<select name="orderby" class="orderby" aria-label="Shop order" onchange="this.form.submit()">
+					<option value="menu_order" <?php echo ($_GET['orderby'] === 'menu_order')  ? 'selected' : '' ?>>Mặc định</option>
+					<option value="popularity" <?php echo ($_GET['orderby'] === 'popularity')  ? 'selected' : '' ?>>Độ phổ biến</option>
+					<option value="rating" <?php echo ($_GET['orderby'] === 'rating')  ? 'selected' : '' ?>>Đánh giá</option>
+					<option value="date" <?php echo ($_GET['orderby'] === 'date')  ? 'selected' : '' ?>>Mới nhất</option>
+					<option value="price" <?php echo ($_GET['orderby'] === 'price')  ? 'selected' : '' ?>>Giá: thấp tới cao</option>
+					<option value="price-desc" <?php echo ($_GET['orderby'] === 'price-desc')  ? 'selected' : '' ?>>Giá: cao tới thấp</option>
+				</select>
+			</div>
+		</div>
+	</div>
+</form>
+
+
