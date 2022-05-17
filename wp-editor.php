@@ -127,6 +127,19 @@ array(
     });
 </script>
 
+<?php
+
+/*
+ * Check tel:
+ * */
+
+function custom_filter_wpcf7_is_tel($result, $tel) {
+  $result = preg_match('/^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/', $tel);
+  return $result;
+}
+add_filter('wpcf7_is_tel', 'custom_filter_wpcf7_is_tel', 10, 2);
+
+
 // FIX menu
 jQuery(window).bind('scroll', function() {
     var navHeight = 165;
