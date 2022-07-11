@@ -1,0 +1,46 @@
+
+.popup-customer-info-radio label {
+    display: inline-block;
+    font-weight: 400;
+    position: relative;
+    cursor: pointer;
+}
+.popup-customer-info-radio label input {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+.popup-customer-info-radio label span:before,.popup-customer-info-radio label span:after {
+    width: 16px;
+    height: 16px;
+    content: "";
+    position: absolute;
+    border: 1px solid #a6a6a6;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    top: 1px;
+    left: 0;
+}
+.popup-customer-info-radio label span {
+    padding-left: 23px;
+}
+.popup-customer-info-radio label input:checked ~ span:before {
+    border: 1px solid #fd7518;
+}
+.popup-customer-info-radio label input:checked ~ span:after {
+    background: #fd7518;
+    border: 1px solid #fd7518;
+    width: 8px;
+    height: 8px;
+    top: 5px;
+    left: 4px;
+}
+.popup-customer-info-radio label ~ label {
+    margin-left: 20px;
+}

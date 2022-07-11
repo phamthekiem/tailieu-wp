@@ -1,0 +1,74 @@
+<script type="text/javascript">
+      var geocoder;
+      function find_my_local() {
+          if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
+          } else {
+              console.log('Browser doesn\'t support Geolocation');
+          }
+      }
+      find_my_local();
+      function successFunction(position) {
+          var lat = position.coords.latitude;
+          var lng = position.coords.longitude;
+          //codeLatLng(42.9564627, -85.7301293)
+          codeLatLng(lat, lng)
+      }
+      function errorFunction() {
+          console.log("Geocoder failed");
+      }
+      initialize();
+      function initialize() {
+          geocoder = new google.maps.Geocoder();
+      }
+      function codeLatLng(lat, lng) {
+          var latlng = new google.maps.LatLng(lat, lng);
+          geocoder.geocode({'latLng': latlng}, function (results, status) {
+              if (status == google.maps.GeocoderStatus.OK) {
+                  if (results[1]) {
+                      var address1 = '',
+                          street_number = '',
+                          route = '',
+                          city = '',
+                          state = '',
+                          postal_code = '';
+                      for (var i = 0; i < results[0].address_components.length; i++) {
+                          for (var b = 0; b < results[0].address_components[i].types.length; b++) {
+                              if (results[0].address_components[i].types[b] == "street_number") {
+                                  //this is the object you are looking for
+                                  street_number = results[0].address_components[i];
+                              }
+                              if (results[0].address_components[i].types[b] == "route") {
+                                  //this is the object you are looking for
+                                  route = results[0].address_components[i];
+                              }
+                              if (results[0].address_components[i].types[b] == "administrative_area_level_2") {
+                                  //this is the object you are looking for
+                                  city = results[0].address_components[i];
+                              }
+                              if (results[0].address_components[i].types[b] == "administrative_area_level_1") {
+                                  //this is the object you are looking for
+                                  state = results[0].address_components[i];
+                              }
+                              if (results[0].address_components[i].types[b] == "postal_code") {
+                                  //this is the object you are looking for
+                                  postal_code = results[0].address_components[i];
+                              }
+                          }
+                      }
+                      var address1 = ((street_number.long_name)?street_number.long_name + ' ':'') + route.long_name;
+
+                      $('#address_street1').val(address1);
+                      $('#city').val(city.long_name);
+                      $('#state').val(state.long_name);
+                      $('#zipcode').val(postal_code.long_name);
+
+                  } else {
+                      console.log("No results found");
+                  }
+              } else {
+                  console.log("Geocoder failed due to: " + status);
+              }
+          });
+      }
+  </script>

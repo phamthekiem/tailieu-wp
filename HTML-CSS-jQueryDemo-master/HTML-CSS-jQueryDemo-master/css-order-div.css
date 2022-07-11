@@ -1,0 +1,14 @@
+@media screen and (max-width: 760px){
+    .post-type-archive-product.woocommerce div#layout{
+        width: 100%;
+        -js-display: flex;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-flow: row wrap;
+        flex-flow: row wrap
+    }
+    .post-type-archive-product.woocommerce #sidebar {
+        -ms-flex-order:-1;
+        order: -1;
+    }
+}

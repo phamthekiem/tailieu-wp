@@ -124,148 +124,52 @@ $nd_page = new WP_Query(array(
 
 <!-- OR -->
 <section class="ourservice-page">
-	<div class="ourservice-menu">
-		<ul class="nav nav-tabs">
-			<?php  
-			$post_id = $post->ID;
-			$args = array(
-	    'post_type' 		=> 'service',
-	    'posts_per_page' 	=> -1,
-	);
-	$the_query = new WP_Query( $args );
-			while($the_query -> have_posts()) : $the_query -> the_post();
-				$class = ( get_the_ID() === $post_id ) ? 'active' : '';
-				echo '<li class="nav-item">
-				    <a class="nav-link '. $class .'" href="'. get_the_permalink( ) .'">'. get_the_title( ) .'</a>
-				</li>';
-			endwhile;
-			wp_reset_postdata();
-			?>
-		</ul>
-	</div>
-	<div class="tab-pane" id="<?php echo $cate->slug; ?>">
-		<?php 
-		// if( ! empty( $_GET['view'] ) && $_GET['view'] == '1' ) {
-			$images = get_field('service_gallery');
-			if( $images ): ?>
-				<div class="service-carousel">
-					<div class="slider-for">
-					<?php foreach( $images as $image ): ?>
-					<div class="service-item">
-						<img src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
+		<div class="ourservice-menu">
+			<ul class="nav nav-tabs">
+				<?php  
+				$post_id = $post->ID;
+				$args = array(
+                    'post_type' 		=> 'service',
+                    'posts_per_page' 	=> -1,
+                );
+                $the_query = new WP_Query( $args );
+				while($the_query -> have_posts()) : $the_query -> the_post();
+					$class = ( get_the_ID() === $post_id ) ? 'active' : '';
+					echo '<li class="nav-item">
+					    <a class="nav-link '. $class .'" href="'. get_the_permalink( ) .'">'. get_the_title( ) .'</a>
+					</li>';
+				endwhile;
+				wp_reset_postdata();
+				?>
+			</ul>
+		</div>
+	  	<div class="tab-pane" id="<?php echo $cate->slug; ?>">
+			<?php 
+			// if( ! empty( $_GET['view'] ) && $_GET['view'] == '1' ) {
+				$images = get_field('service_gallery');
+				if( $images ): ?>
+					<div class="service-carousel">
+						<div class="slider-for">
+					        <?php foreach( $images as $image ): ?>
+				                <div class="service-item">
+				                	<img src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
+				                </div>
+					        <?php endforeach; ?>
+					   	</div>
+					   	<div class="slider-nav">
+					        <?php foreach( $images as $image ): ?>
+				                <div class="service-item">
+				                	<img src="<?php echo esc_url($image['sizes']['thumbnail']); ?>" alt="Thumbnail of <?php echo esc_url($image['alt']); ?>" />
+				                </div>
+					        <?php endforeach; ?>
+					   	</div>
 					</div>
-					<?php endforeach; ?>
-					</div>
-					<div class="slider-nav">
-					<?php foreach( $images as $image ): ?>
-					<div class="service-item">
-						<img src="<?php echo esc_url($image['sizes']['thumbnail']); ?>" alt="Thumbnail of <?php echo esc_url($image['alt']); ?>" />
-					</div>
-					<?php endforeach; ?>
-					</div>
-				</div>
-			<?php endif; 
-		// } else {
-		// 	echo '<div class="text-center"><a href="'. get_the_permalink( ) .'?view=1">'. get_the_post_thumbnail( get_the_ID(), 'full' ) .'</a></div>';
-		// }
-		?>
-	</div>
-</section>
-
-<!-- Tabs cate -->
-<section class="content-pages__alls">
-	<div class="tops-navs__pages mb-115s">
-	    <div class="container">
-		<ul class="nav-pages__alls mb-50s">
-		    <?php  
-			// $post_id = $term->term_id;
-			// $args = array(
-			//     'type'	=> 'dich-vu',
-			//     'taxonomy'	=> 'danh-muc-dich-vu',
-			//     'hide_empty' => 0,
-			// );
-			// $categories = get_categories($args);
-			// foreach ( $categories as $category ) {
-			//     $class = ( $category->term_id === $post_id ) ? 'active' : '';
-			//     echo '<li>';
-			//         echo '<a href="'.get_term_link($category->slug, 'danh-muc-dich-vu').'" class="'. $class .'" title="'.$category->name.'">'.$category->name.'</a>';
-			//     echo '</li>';
+				<?php endif; 
+			// } else {
+			// 	echo '<div class="text-center"><a href="'. get_the_permalink( ) .'?view=1">'. get_the_post_thumbnail( get_the_ID(), 'full' ) .'</a></div>';
 			// }
-		    ?>
-		    <?php 
-			$post_id = get_the_ID();
-			$args = array(
-			    'post_type' => 'dich-vu',
-			    'post_status'   => 'publish',
-
-			);
-			$query = new WP_query($args);
-			while ( $query->have_posts() ) : $query->the_post();
-			    $class = ( $post->ID === $post_id ) ? 'active' : ''; 
-			    // var_dump($class);
 			?>
-			    <li>
-				<a href="<?php the_permalink(); ?>" class="<?php echo $class ?>" title="<?php the_title() ?>"><?php the_title() ?></a>
-			    </li>
-			<?php endwhile; wp_reset_postdata(); ?>
-		</ul>
-	    </div>
-	</div>
-	<div class="container">
-	    <div class="box-quocte__alls text-quocte__right mb-115s">
-		<div class="row gutter-100">
-		    <div class="col-lg-6">
-			<?php echo get_the_post_thumbnail( get_the_id(), 'large', array( 'class' =>'thumnail', 'alt' => 'Dịch vụ') ); ?>
-		    </div>
-		    <div class="col-lg-6">
-			<div class="text-quocte__alls fs-20s">
-			    <?php the_content() ?>
-			</div>
-		    </div>
 		</div>
-	    </div>
-	    <div class="content-advise__pages mb-150s">
-		<div class="row gutter-100">
-		    <div class="col-lg-8">
-			<div class="tag-content__advises">
-			    <ul class="nav tag-alls__pages" id="myTab" role="tablist">
-				<li class="">
-				    <a title="" class=" active" id="prds-mains-tag-1-tab" data-toggle="tab" href="#prds-mains-tag-1" role="tab" aria-controls="#prds-mains-tag-1" aria-selected="true"> Ưu điểm </a>
-				</li>
-				<li class="">
-				    <a title="" class="" id="prds-mains-tag-2-tab" data-toggle="tab" href="#prds-mains-tag-2" role="tab" aria-controls="prds-mains-tag-2" aria-selected="false">Quy trình tư vấn</a>
-				</li>
-				<li class="">
-				    <a title="" class="" id="prds-mains-tag-3-tab" data-toggle="tab" href="#prds-mains-tag-3" role="tab" aria-controls="prds-mains-tag-3" aria-selected="false">Hỏi - đáp ?</a>
-				</li>
-			    </ul>
-			    <div class="tab-content content-tags__alls">
-				<div class="tab-pane fade show active" id="prds-mains-tag-1" role="tabpanel" aria-labelledby="prds-mains-tag-1-tab">
-				    <?php the_field('advantages') ?>
-				</div>
-				<div class="tab-pane fade" id="prds-mains-tag-2" role="tabpanel" aria-labelledby="prds-mains-tag-2-tab">
-				    <?php the_field('Consulting-process') ?>
-				</div>
-				<div class="tab-pane fade" id="prds-mains-tag-3" role="tabpanel" aria-labelledby="prds-mains-tag-3-tab">
-				    <?php the_field('faq') ?>
-				</div>
-			    </div>
-			</div>
-		    </div>
-		    <div class="col-lg-4">
-			<div class="category-prds__pages mb-50s">
-			    <?php dynamic_sidebar('sidebar-service') ?>
-			</div>
-			<form class="form-dowlopad__files">
-			    <p class="fs-15s mb-30s">Hồ sơ năng lực <br> của DCV Invest</p>
-			    <a href="<?php the_field('link_download') ?>" class="btn-oranges__alls" download="" target="blank">
-				TẢI TẠI ĐÂY
-			    </a>
-			</form>
-		    </div>
-		</div>
-	    </div>
-	</div>
 	</section>
 
 <!-- --------------Hướng dẫn Woocommerce--------------- -->
@@ -2190,177 +2094,3 @@ Tìm kiếm theo từ khóa kết hợp với category.
 <!-- -------------------------------------- -->
 
 Những hàm cơ bản trong wordpress
-
-<!-- Filter variable Woocommerce -->
-<?php
-
-/**
- * The Template for displaying product archives, including the main shop page which is a post type archive
- *
- * This template can be overridden by copying it to yourtheme/woocommerce/archive-product.php.
- *
- * HOWEVER, on occasion WooCommerce will need to update template files and you
- * (the theme developer) will need to copy the new files to your theme to
- * maintain compatibility. We try to do this as little as possible, but it does
- * happen. When this occurs the version of the template file will be bumped and
- * the readme will list any important changes.
- *
- * @see https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
- * @version 3.4.0
- */
-
-defined('ABSPATH') || exit;
-
-global $sh_option;
-
-get_header('shop');
-
-/**
- * Hook: woocommerce_before_main_content.
- *
- * @hooked woocommerce_output_content_wrapper - 10 (outputs opening divs for the content)
- * @hooked woocommerce_breadcrumb - 20
- * @hooked WC_Structured_Data::generate_website_data() - 30
- */
-do_action('woocommerce_before_main_content');
-
-global $wp;
-$current_url = home_url(add_query_arg(array(), $wp->request)) . '/';
-
-if (is_search()) {
-	$current_url = "";
-}
-?>
-<header class="woocommerce-products-header">
-	<?php if (apply_filters('woocommerce_show_page_title', true) && $sh_option['display-pagetitlebar'] == '0') : ?>
-		<h1 class="woocommerce-products-header__title page-title"><?php woocommerce_page_title(); ?></h1>
-	<?php endif; ?>
-
-	<div class="wrap-description">
-		<?php //if (get_field('category_desc', get_queried_object())) : ?>
-
-			<!-- <div class="taxonomy-product-description" data-controller="#readMore">
-				<?php //echo get_field('category_desc', get_queried_object()) ?>
-			</div> -->
-		<?php //else : ?>
-			<?php
-			/**
-			 * Hook: woocommerce_archive_description.
-			 *
-			 * @hooked woocommerce_taxonomy_archive_description - 10
-			 * @hooked woocommerce_product_archive_description - 10
-			 */
-			//do_action('woocommerce_archive_description');
-			?>
-		<?php //endif; ?>
-
-		<!-- <div class="btn btn-readmore" id="readMore"></div> -->
-	</div>
-</header>
-<?php
-
-// Check hierarchy in theme options
-if ($sh_option['display-hierarchy-woocommerce'] == '1' && !is_shop() && is_product_category()) {
-	// Content
-	$archive_object = get_queried_object();
-	$archive_id 	= $archive_object->term_id;
-	$args = array(
-		'parent'     	=> $archive_id,
-		'hide_empty'  	=> 0,
-		'taxonomy'    	=> $archive_object->taxonomy,
-	);
-	$categories = get_categories($args);
-	if ($categories) {
-		echo '<div class="list-categories">';
-		echo '<div class="row">';
-		/* Start the Loop */
-		foreach ($categories as $value) {
-			echo '<div class="col-md-3">';
-			echo '<div class="list-categories__item">';
-			echo '<a class="img" title="' . $value->name . '" href="' . get_term_link($value->term_id, $archive_object->taxonomy) . '">' . woocommerce_category_image($value->term_id) . '</a>';
-			echo '<h2><a class="" title="' . $value->name . '" href="' . get_term_link($value->term_id, $archive_object->taxonomy) . '">' . $value->name . '</a></h2>';
-			echo '</div>';
-			echo '</div>';
-		}
-		echo '</div>';
-		echo '</div>';
-	}
-} ?>
-
-<form action="<?php echo $current_url ?>" method="GET" class="filter-custom">
-	<?php if (is_search()) : ?>
-		<input type="hidden" name="post_type" value="product" autocomplete="off">
-		<input type="hidden" value="<?php echo $_GET['s'] ?>" name="s">
-	<?php endif; ?>
-	<div class="box-header-cat">
-		<div class="product-fillter">
-			<div class="product-filter-title">
-				Bộ lọc
-			</div>
-
-			<div class="btn btn-success d-block d-lg-none open-filter-mb">
-				<i class="fas fa-filter filter-icon"></i>
-			</div>
-
-
-			<div class="wrap-filter-select">
-				<div class="filter-mb-title font-weight-bold text-center mb-4 d-lg-none">
-					Bộ lọc sản phẩm
-				</div>
-				<div class="filter-box price-filter">
-					<div class="btn-price-filter">Giá <i class="fas fa-angle-down"></i></div>
-				</div>
-				<div class="wrap-slide-price d-flex flex-column">
-					<input type="text" class="js-range-slider">
-					<input type="hidden" name="min_price" class="filter-price-min">
-					<input type="hidden" name="max_price" class="filter-price-max">
-					<hr>
-					<div class="d-flex">
-						<div class="btn btn-danger w-50 mr-2 btn-sm close-filter-price">
-							Đóng
-						</div>
-						<button type="submit" class="w-50 ml-2 btn btn-success btn-sm">
-							Lọc
-						</button>
-					</div>
-				</div>
-				<?php
-				$attribute_taxonomies = wc_get_attribute_taxonomies();
-				foreach ($attribute_taxonomies as $taxo) : ?>
-					<select class="filter-box" name="filter_<?php echo $taxo->attribute_name ?>" onchange="this.form.submit()">
-						<option value=""><?php echo $taxo->attribute_label ?></option>
-						<?php
-						$terms = get_terms("pa_" . $taxo->attribute_name);
-						foreach ($terms as $term) : ?>
-							<option value="<?php echo $term->slug ?>" <?php echo ($_GET['filter_' . $taxo->attribute_name] === $term->slug)  ? 'selected' : '' ?>>
-								<?php echo $term->name ?>
-							</option>
-						<?php
-						endforeach; ?>
-					</select>
-				<?php endforeach; ?>
-				<div class="btn btn-danger w-100 close-filter-mb d-lg-none">
-					Đóng
-				</div>
-			</div>
-		</div>
-		<div class="product-order">
-			<div class="product-filter-title text-right">
-				Sắp xếp
-			</div>
-			<div class="product-fillter product-fillter-order">
-				<select name="orderby" class="orderby" aria-label="Shop order" onchange="this.form.submit()">
-					<option value="menu_order" <?php echo ($_GET['orderby'] === 'menu_order')  ? 'selected' : '' ?>>Mặc định</option>
-					<option value="popularity" <?php echo ($_GET['orderby'] === 'popularity')  ? 'selected' : '' ?>>Độ phổ biến</option>
-					<option value="rating" <?php echo ($_GET['orderby'] === 'rating')  ? 'selected' : '' ?>>Đánh giá</option>
-					<option value="date" <?php echo ($_GET['orderby'] === 'date')  ? 'selected' : '' ?>>Mới nhất</option>
-					<option value="price" <?php echo ($_GET['orderby'] === 'price')  ? 'selected' : '' ?>>Giá: thấp tới cao</option>
-					<option value="price-desc" <?php echo ($_GET['orderby'] === 'price-desc')  ? 'selected' : '' ?>>Giá: cao tới thấp</option>
-				</select>
-			</div>
-		</div>
-	</div>
-</form>
-
-

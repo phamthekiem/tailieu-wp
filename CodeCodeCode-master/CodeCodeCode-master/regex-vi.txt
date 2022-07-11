@@ -1,0 +1,35 @@
+Cheat Sheet
+
+[abc] 1 chữ cái bất kỳ : a,b hoặc c
+[^abc] Tất cả chữ cái ngoài trừ: a, b và c
+[a-z] Tất cả chữ cái thường từ a đến z
+[a-zA-Z] Tất cả chữ cái thường a đến z và in hoa A đến Z
+^ Start of line
+$ End of line
+\A Start a string
+\Z End of string
+. Any single character
+\s Tất cả dấu cách (khoảng trắng)
+\S Tất cả ký tự ngoại trừ dấu cách (ngoại trừ khoảng trắng)
+\d Tất cả chữ số nguyên
+\D Tất cả ngoại trừ chữ số
+\w Tất cả các ký tự bao gồm (từ, số, dấu gạch dưới "_")
+\W Ngược lại với \w. Tất cả ký tự ngoài trừ (từ, số, dấu gạch dưới "_")
+\b Any word boundary
+(...) Capture everything enclosed
+(a|b) a or b
+a? Zero or one of a
+a* Zero or more of a
+a+ 1 hoặc nhiều chữ a
+a{3} Chính xác 3 chữ a liền nhau
+a{3,} 3 hoặc nhiều hơn 3 chữ a liền nhau
+a{3,6} 3 đến 6 chữ a trong 1 chữ
+
+Options
+
+i case insensitive
+m treat as multi-line strings dot matches newline
+x ignore whitespace in regex
+A matches only at the start of string
+D matches only at the end of string
+U non-greedy matching by default

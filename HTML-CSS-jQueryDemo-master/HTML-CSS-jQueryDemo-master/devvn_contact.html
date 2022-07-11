@@ -1,0 +1,105 @@
+<style>
+.devvn_contact_right, .devvn_contact_right * {
+    box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.devvn_contact_right {
+    position: fixed;
+    top: 60px;
+    right: 0;
+    z-index: 99999;
+	width: 143px;
+}
+.devvn_contact_more,.devvn_contact_less {
+    transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+}
+.devvn_contact_more {
+    position: relative;
+    transform: translateX(0);
+	-moz-transform: translateX(0);
+	-webkit-transform: translateX(0);
+	text-align: right;
+}
+.opencontact .devvn_contact_more {
+    transform: translateX(100%);
+	-moz-transform: translateX(100%);
+	-webkit-transform: translateX(100%);
+}
+.devvn_contact_less {
+    visibility: hidden;
+    opacity: 0;
+	transform: translateX(100%);
+	-moz-transform: translateX(100%);
+	-webkit-transform: translateX(100%);
+	position: absolute;
+    top: 0;
+    right: 0;
+}
+.opencontact .devvn_contact_less {
+    visibility: visible;
+    opacity: 1;
+	transform: translateX(0);
+	-moz-transform: translateX(0);
+	-webkit-transform: translateX(0);
+}
+.devvn_contact_content {
+    overflow: hidden;
+    border: #dedede 1px solid;
+    border-top: 0;
+    border-bottom-left-radius: 5px;
+	-moz-border-bottom-left-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+	-moz-border-bottom-right-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	padding: 10px;
+	text-align: center;
+}
+.devvn_contact_content p {
+    margin: 0 0 10px !important;
+}
+</style>
+<script language="javascript">
+function hasClass(ele, cls) {
+    return ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+}
+function addClass(ele, cls) {
+    if (!hasClass(ele, cls)) ele.className += " " + cls;
+}
+function removeClass(ele, cls) {
+    if (hasClass(ele, cls)) {
+        var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+        ele.className = ele.className.replace(reg, ' ');
+    }
+}
+function devvn_more() {
+	var devvn_contact_right = document.getElementById('devvn_contact_right');
+	if(!hasClass(devvn_contact_right, 'opencontact')) {
+		addClass(devvn_contact_right, 'opencontact');
+	}else{
+		removeClass(devvn_contact_right, 'opencontact');
+	}
+}
+</script>
+<div class="devvn_contact_right" id="devvn_contact_right">
+	<div class="devvn_contact_more">
+		<a href="javascript:devvn_more();"><img src="shrink.gif" alt=""/></a>
+	</div>
+	<div class="devvn_contact_less">
+		<a href="javascript:devvn_more();"><img src="close.gif" alt=""/></a>
+		<div class="devvn_contact_content">
+			<div class="common common_s11" style="background-color:#ffffff">
+				<p class="devvn_title"><strong>Hotline</strong></p>
+				<p class="tel"><a href="tel:0912345678">0912345678</a></p>
+				<p class="devvn_title"><strong>Business hours</strong></p>
+				<p class="time">8:00-17:00</p>
+				<div style="text-align:center"><a title="To top" onclick="window.scrollTo(0,0);" href="javascript:void(0);">To Top</a></div>
+			</div>
+		</div>
+	</div>
+</div>

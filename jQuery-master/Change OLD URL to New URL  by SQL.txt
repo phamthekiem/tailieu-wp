@@ -1,0 +1,71 @@
+UPDATE wp_options SET option_value = replace(option_value, 'old-domain.com', 'new-domain.com') WHERE option_name = 'home' OR option_name = 'siteurl';
+
+UPDATE wp_posts SET guid = replace(guid, 'old-domain.com','new-domain.com');
+
+UPDATE wp_posts SET post_content = replace(post_content, 'old-domain.com', 'new-domain.com');
+
+UPDATE wp_postmeta SET meta_value = replace(meta_value,'old-domain.com','new-domain.com');
+
+//Revosolution
+
+UPDATE wp_revslider_sliders SET `params` = replace(`params`,'rubberrobots.com','rmgnetworks.com');
+
+UPDATE wp_revslider_slides SET `params` = replace(`params`,'rubberrobots.com','rmgnetworks.com');
+UPDATE wp_revslider_slides SET `layers` = replace(`layers`,'rubberrobots.com','rmgnetworks.com');
+
+UPDATE wp_revslider_static_slides SET `params` = replace(`params`,'rubberrobots.com','rmgnetworks.com');
+UPDATE wp_revslider_static_slides SET `layers` = replace(`layers`,'rubberrobots.com','rmgnetworks.com');
+
+//Revo slide http to https
+
+UPDATE wp_revslider_sliders SET `params` = replace(`params`,'http:\\/\\/www.rmgnetworks.com','https:\\/\\/www.rmgnetworks.com');
+
+UPDATE wp_revslider_slides SET `params` = replace(`params`,'http:\\/\\/www.rmgnetworks.com','https:\\/\\/www.rmgnetworks.com');
+UPDATE wp_revslider_slides SET `layers` = replace(`layers`,'http:\\/\\/www.rmgnetworks.com','https:\\/\\/www.rmgnetworks.com');
+
+UPDATE wp_revslider_static_slides SET `params` = replace(`params`,'http:\\/\\/rmgnetworks.com','https:\\/\\/www.rmgnetworks.com');
+UPDATE wp_revslider_static_slides SET `layers` = replace(`layers`,'http:\\/\\/rmgnetworks.com','https:\\/\\/www.rmgnetworks.com');
+
+//revo domain to new domain
+UPDATE cwd_revslider_sliders SET `params` = replace(`params`,'dev2.createservers.co.uk\\/swiss','swissjungle.ch');
+UPDATE cwd_revslider_slides SET `params` = replace(`params`,'dev2.createservers.co.uk\\/swiss','swissjungle.ch');
+UPDATE cwd_revslider_slides SET `layers` = replace(`layers`,'dev2.createservers.co.uk\\/swiss','swissjungle.ch');
+UPDATE cwd_revslider_static_slides SET `params` = replace(`params`,'dev2.createservers.co.uk\\/swiss','swissjungle.ch');
+UPDATE cwd_revslider_static_slides SET `layers` = replace(`layers`,'dev2.createservers.co.uk\\/swiss','swissjungle.ch');
+
+
+//Widget
+UPDATE mtp_options SET option_value = replace(option_value, 'old-domain.com', 'new-domain.com') WHERE option_name = 'widget_text' OR option_name = 'recently_edited';
+
+
+// PHP search and replace string sql with regex
+add_action( 'wp_ajax_sql_search_replace_regex', 'sql_search_replace_regex_func' );
+function sql_search_replace_regex_func(){
+	global $wpdb;
+	$result = $wpdb->get_results( 
+	"SELECT ID, post_content
+	FROM wp_posts
+	WHERE post_type != 'attachment'", 
+	ARRAY_A );
+	
+	/*if(is_array($result)){
+		foreach ($result as $post_hack){
+			$post_content = preg_replace("/<a .*>.<\/a>/", "", $post_hack['post_content']);
+			$wpdb->update( 
+				'wp_posts', 
+				array( 
+					'post_content' => $post_content,
+				), 
+				array( 'ID' => $post_hack['ID'] ), 
+				array( 
+					'%s',
+				), 
+				array( '%d' )
+			);
+		}
+	}
+	*/
+	echo '<pre>';
+	print_r($result);
+	die();
+}

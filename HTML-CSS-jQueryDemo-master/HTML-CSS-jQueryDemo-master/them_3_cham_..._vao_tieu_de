@@ -1,0 +1,10 @@
+// Thêm ... vào tiêu đề
+.twoLineTitle_wlyu2v {
+    line-height: 18px !important;
+    max-height: 36px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+}

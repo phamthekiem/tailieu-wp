@@ -1,0 +1,41 @@
+1. Sử dụng itheme security plugin để active sang SSL
+2. Thêm đoạn code sau vào wp-config.php để truy cập ssl trong admin
+    define('FORCE_SSL_ADMIN', true);
+3. Thêm code sau vào htaccess để chuyển thướng 301 toàn bộ link ko có https sang https
+    Code 1: 0kie
+        # BEGIN WordPress
+        <IfModule mod_rewrite.c>
+        RewriteEngine On
+        RewriteBase /
+
+        RewriteCond %{HTTPS} off
+        RewriteRule (.*)$ https://levantoan.com/$1 [L,R=301]
+
+        RewriteRule ^index\.php$ - [L]
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteRule . /index.php [L]
+
+        </IfModule>
+
+        # END WordPress
+    Code 2: Chạy code 2 nếu code 1 ko chạy
+        <IfModule mod_rewrite.c>
+        RewriteEngine On
+        RewriteCond %{HTTPS} off
+        RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+        </IfModule>
+4. Đăng ký site https với google webmaster tool
+5. Nếu web có comment của facebook thì thêm đoạn code sau vào functions.php của theme bạn đang sử dụng
+    /*Face http to https*/
+    add_filter( 'wpseo_opengraph_url', 'yoast_http_og_url' );
+    function yoast_http_og_url( $url ) {
+        return str_replace( 'https://', 'http://', $url );
+    }
+    add_filter( 'jetpack_open_graph_tags', 'jetpack_http_og_url' );
+    function jetpack_http_og_url( $tags ) {
+        $tags['og:url'] = str_replace( 'https://', 'http://', $tags['og:url'] );
+        return $tags;
+    }
+6. Trong thuộc tính của comment facebook thay data-href thành như sau
+    data-href="<?php echo str_replace('https://', 'http://', get_the_permalink());?>"

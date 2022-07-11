@@ -2,7 +2,22 @@
    SecFilterEngine Off
 </IfModule>
 
+<IfModule pagespeed_module>
+     ModPagespeed off
+</IfModule>
+
 <?
+
+/*
+ * Check tel:
+ * */
+
+function custom_filter_wpcf7_is_tel($result, $tel) {
+  $result = preg_match('/^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/', $tel);
+  return $result;
+}
+add_filter('wpcf7_is_tel', 'custom_filter_wpcf7_is_tel', 10, 2);
+
 
 define('WP_ALLOW_REPAIR', true);
 
@@ -14,6 +29,18 @@ define('DISALLOW_FILE_MODS',true);
 remove_action ( 'load-update-core.php' , 'wp_update_plugins' ); 
 add_filter ( 'pre_site_transient_update_plugins' , '__return_null' );
 
+
+/**
+ * Custom admin
+ */
+function wp_include_admin_js() {
+    wp_enqueue_script(THEME_NAME.'-custom-admin', ASSETS_URI .'/js/custom-admin.js', false, THEME_VERSION, 'all');
+}
+
+add_action('admin_enqueue_scripts', 'wp_include_admin_js', 99);
+
+
+// 
 function remove_core_updates()
 {
 	global $wp_version;
@@ -59,7 +86,15 @@ function b3m_wrap_widget_titles( array $params ) {
         
 }
 
+/*
+    Canonical seo
+*/
+global $wp;
+$current_url = home_url( $wp->request );
+echo "<link rel=\"canonical\" href=\"{$current_url}\" />";
 
+
+// 
 Redux::setSection( $opt_name, array(
     'title'            => __( 'Thư viện ảnh', 'shtheme' ),
     'id'               => 'slider-4',
@@ -82,6 +117,9 @@ array(
 ),
 
 [shblog posts_per_page="8" categories="6"  style="4"]
+
+$thumbnail_id = get_woocommerce_term_meta($idpost, 'thumbnail_id', true);
+echo '<img class="img-fluid" src="' . wp_get_attachment_url($thumbnail_id) . '">';
 
 <?php echo do_shortcode('[wtb_static_block static="1254"]'); ?>
 
@@ -127,8 +165,30 @@ array(
     });
 </script>
 
-<?php
+<!-- Right coppy -->
+<script language="JavaScript">
+    document.oncontextmenu =new Function("return false;");
+    document.onkeydown = function(e) {
+        if(e.keyCode == 123) {
+            return false;
+        }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){
+            return false;
+        }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){
+            return false;
+        }
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){
+            return false;
+        }
 
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)){
+            return false;
+        }      
+    }
+</script>   
+
+<?php 
 /*
  * Check tel:
  * */
@@ -138,6 +198,7 @@ function custom_filter_wpcf7_is_tel($result, $tel) {
   return $result;
 }
 add_filter('wpcf7_is_tel', 'custom_filter_wpcf7_is_tel', 10, 2);
+
 
 
 // FIX menu
@@ -343,6 +404,23 @@ add_action( 'phpmailer_init', function( $phpmailer ) {
     $phpmailer->FromName   = 'Thiết kế web 3B - thietkeweb3b.com';
 });
 
+<!--  -->
+
+add_action( 'phpmailer_init', function( $phpmailer ) {
+    if ( !is_object( $phpmailer ) )
+    $phpmailer = (object) $phpmailer;
+    $phpmailer->Mailer     = 'smtp';
+    $phpmailer->Host       = 'smtp.gmail.com';
+    $phpmailer->SMTPAuth   = 1;
+    $phpmailer->Port       = 587;
+    $phpmailer->Username   = 'phamthekiem193@gmail.com';
+    $phpmailer->Password   = 'lngbgfeujckyqrbc';
+    $phpmailer->SMTPSecure = 'TLS';
+    $phpmailer->From       = 'phamthekiem193@gmail.com';
+    $phpmailer->FromName   = 'GCO-DEV';
+});
+
+
 <script>
 window.onbeforeunload = function (e) {
 e = e || window.event;
@@ -484,6 +562,30 @@ function myFunction() {
 <?php 
     add_filter('use_block_editor_for_post', '__return_false');
     add_filter( 'use_widgets_block_editor', '__return_false' );
+
+    //  post classic, page gutenberg
+    function my_disable_gutenberg_posts( $current_status, $post_type ) {
+    // Disabled post types
+    $disabled_post_types = array( 'post' );
+    // Change $can_edit to false for any post types in the disabled post types array
+    if ( in_array( $post_type, $disabled_post_types, true ) ) {
+    $current_status = false;
+    }
+    return $current_status;
+    }
+    add_filter( 'use_block_editor_for_post_type', 'my_disable_gutenberg_posts', 10, 2 );
+
+    // OR
+    function my_disable_gutenberg_posts( $current_status, $post_type ) {
+    // Disabled post types
+    $disabled_post_types = array( 'post' );
+    // Change $can_edit to false for any post types in the disabled post types array
+    if ( in_array( $post_type, $disabled_post_types, true ) ) {
+    $current_status = false;
+    }
+    return $current_status;
+    }
+    add_filter( 'use_block_editor_for_post_type', 'my_disable_gutenberg_posts', 10, 2 );
 
     // Lazload wp 5.5
     

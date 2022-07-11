@@ -1,0 +1,5 @@
+Options +FollowSymLinks
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^example.com [NC,OR]
+RewriteCond %{HTTP_HOST} ^www.example.com [NC]
+RewriteRule ^(.*)$ http://example.net/$1 [L,R=301,NC]

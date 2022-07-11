@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Menu srcoll Top hide/show</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+$(document).ready(function(e) {
+	if ($('.fixed-enabled').length > 0) {
+		console.log('dư');
+		var navScroll_1 = $(document).scrollTop();
+		var headerHeight = $('.fixed-enabled').offset().top;
+		$(window).scroll(function() {
+			var navScroll_2 = jQuery(document).scrollTop();
+			if (navScroll_2 > headerHeight) {
+				$('.fixed-enabled').addClass('fixed-nav');
+			}else {
+				$('.fixed-enabled').removeClass('fixed-nav');
+			}
+			if (navScroll_2 > navScroll_1) {
+				$('.fixed-enabled').removeClass('fixed-nav-appear');
+			}else {
+				$('.fixed-enabled').addClass('fixed-nav-appear');
+			}
+			navScroll_1 = $(document).scrollTop();
+		});
+	}
+});
+</script>
+<style type="text/css">
+*{
+	margin:0;
+	padding:0;
+}
+.content{
+	width:100%;
+	max-width:800px;
+	margin:0 auto;
+	min-height:1000px;
+	position:relative;
+}
+.fixed-enabled{
+	height:50px;
+	background:#000;
+	color:#fff;
+	text-align:center;
+}
+ul{
+	list-style:none;
+	font-size:0;
+}
+li{
+	display:inline-block;
+	text-align:center;
+	font-size:14px;
+}
+li a{
+	padding:0px 10px;
+	color:#fff;
+	text-decoration:none;
+	display:block;
+	line-height:50px;
+}
+/*Style fixed*/
+.fixed-nav {
+    position: fixed;
+    top: -90px;
+    width: 800px;
+    z-index: 9999;
+    opacity: 0.95;
+    -webkit-transition: top .5s;
+    -moz-transition: top .5s;
+    -o-transition: top .5s;
+    transition: top .5s;
+    -webkit-box-shadow: 0 5px 3px rgba(0,0,0,.1);
+    -moz-box-shadow: 0 5px 3px rgba(0,0,0,.1);
+    box-shadow: 0 5px 3px rgba(0,0,0,.1);
+}
+
+.fixed-nav-appear {
+    top: 0;
+}
+body.admin-bar .fixed-nav-appear {
+    top: 32px;
+}
+</style>
+</head>
+
+<body>
+<div class="content">
+	<div class="fixed-enabled">
+    	<ul>
+        	<li><a href="#">Home</a></li>
+            <li><a href="#">Project</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact Us</a></li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

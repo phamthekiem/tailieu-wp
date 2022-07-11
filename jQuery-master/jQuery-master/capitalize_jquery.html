@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CAPITALIZE ALL TEXT</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+jQuery(document).ready(function($){
+	function capitalize(s){
+		return s.toLowerCase().replace( /\b./g, function(a){ return a.toUpperCase(); } );
+	};
+	$('a.link').each(function() {
+        var newText = capitalize($(this).text());
+		$(this).text(newText);
+    });	
+});
+</script>
+</head>
+<body>
+<a class="link" href="#">CAPITALIZE ALL TEXT</a><br />
+<a class="link" href="#">CAPITALIZE ALL TEXT</a><br />
+<a class="link" href="#">CAPITALIZE ALL TEXT</a><br />
+</body>
+</html>

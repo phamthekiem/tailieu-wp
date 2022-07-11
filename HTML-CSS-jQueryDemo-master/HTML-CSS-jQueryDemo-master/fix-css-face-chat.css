@@ -1,0 +1,4 @@
+#fb-root {height:0; overflow: hidden;}
+.fb-customerchat.fb_invisible_flow.fb_iframe_widget iframe {
+    height: 0;
+}

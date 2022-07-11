@@ -1,0 +1,25 @@
+<div id="google_translate_element"></div>
+<script>
+//<![CDATA[  			
+	function googleTranslateElementInit() {
+		new google.translate.TranslateElement({
+				pageLanguage: 'en',
+				autoDisplay: false,
+				includedLanguages: 'en,es,vi'
+			},'google_translate_element'
+		);	
+		if(typeof(document.querySelector) == 'function') {
+			document.querySelector('.goog-logo-link').setAttribute('style', 'display: none');
+			document.querySelector('.goog-te-gadget').setAttribute('style', 'font-size: 0');
+		}			
+		jQuery('.goog-logo-link').css('display', 'none');
+		jQuery('.goog-te-gadget').css('font-size', '0');
+
+		jQuery('body .goog-te-combo').on('change',function(){
+			var codelang = jQuery(this).find('option:selected').val();
+			jQuery('body').removeClass('vi es en').addClass(codelang);
+		});
+	}
+//]]>			    
+</script>
+<script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

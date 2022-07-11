@@ -1,0 +1,10 @@
+.devvn_single_product_footer_right {
+    position: sticky;
+    position: -webkit-sticky;
+    position: -moz-sticky;
+    position: -ms-sticky;
+    position: -o-sticky;
+    position: sticky;
+    top: 0;
+    align-self: flex-start; /*Fix for display flex*/
+}
