@@ -93,6 +93,19 @@ global $wp;
 $current_url = home_url( $wp->request );
 echo "<link rel=\"canonical\" href=\"{$current_url}\" />";
 
+add_action('wp_head', 'canonical');
+function canonical()
+{
+    // $paged = (get_query_var('paged')) ? get_query_var('paged') : null;
+    $paged = $_GET['pag'] ?? null;
+
+   
+        global $wp;
+        $current_url = home_url( $wp->request );
+        echo "<link rel=\"canonical\" href=\"{$current_url}\" />";
+    
+}
+
 
 // 
 Redux::setSection( $opt_name, array(
@@ -397,10 +410,10 @@ add_action( 'phpmailer_init', function( $phpmailer ) {
     $phpmailer->Host       = 'smtp.gmail.com';
     $phpmailer->SMTPAuth   = 1;
     $phpmailer->Port       = 587;
-    $phpmailer->Username   = 'trunggian10.web3b@gmail.com';
-    $phpmailer->Password   = 'gbfdsweukfnhawxb';
+    $phpmailer->Username   = 'trunggian3b@gmail.com';
+    $phpmailer->Password   = 'fbkbiqhtlbflnmmv';
     $phpmailer->SMTPSecure = 'TLS';
-    $phpmailer->From       = 'trunggian10.web3b@gmail.com';
+    $phpmailer->From       = 'trunggian3b@gmail.com';
     $phpmailer->FromName   = 'Thiết kế web 3B - thietkeweb3b.com';
 });
 
