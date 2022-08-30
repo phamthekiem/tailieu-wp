@@ -410,14 +410,15 @@ add_action( 'phpmailer_init', function( $phpmailer ) {
     $phpmailer->Host       = 'smtp.gmail.com';
     $phpmailer->SMTPAuth   = 1;
     $phpmailer->Port       = 587;
-    $phpmailer->Username   = 'trunggian3b@gmail.com';
-    $phpmailer->Password   = 'fbkbiqhtlbflnmmv';
+    $phpmailer->Username   = 'trunggian04b@gmail.com';
+    $phpmailer->Password   = 'rzxibmcgknwnodsx';
     $phpmailer->SMTPSecure = 'TLS';
-    $phpmailer->From       = 'trunggian3b@gmail.com';
+    $phpmailer->From       = 'trunggian04b@gmail.com';
     $phpmailer->FromName   = 'Thiết kế web 3B - thietkeweb3b.com';
 });
 
 <!--  -->
+
 
 add_action( 'phpmailer_init', function( $phpmailer ) {
     if ( !is_object( $phpmailer ) )
