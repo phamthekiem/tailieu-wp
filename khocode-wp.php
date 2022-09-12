@@ -514,6 +514,12 @@ $category->category_parent
 <?php $categories = get_the_category(); ?>
 <p class="category"><?php echo esc_html( $categories[0]->name ); ?></p>
 
+<?php  
+	$category = get_category($id);
+	$count = $category->category_count;
+	// echo $count;
+?>
+
 <!--  -->
 <?php 
 // Create product taxonomy
