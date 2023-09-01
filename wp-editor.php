@@ -438,7 +438,7 @@ add_action( 'phpmailer_init', function( $phpmailer ) {
     $phpmailer->SMTPAuth   = 1;
     $phpmailer->Port       = 587;
     $phpmailer->Username   = 'phamthekiem193@gmail.com';
-    $phpmailer->Password   = 'intewlibyhrcsnqm';
+    $phpmailer->Password   = 'dxigkfbkzmcctesk';
     $phpmailer->SMTPSecure = 'TLS';
     $phpmailer->From       = 'phamthekiem193@gmail.com';
     $phpmailer->FromName   = 'GCO-DEV';
