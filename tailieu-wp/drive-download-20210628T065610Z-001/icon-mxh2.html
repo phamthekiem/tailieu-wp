@@ -1,0 +1,384 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Icon MXH</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <link href="https://code.ionicframework.com/1.0.0/css/ionic.min.css" rel="stylesheet">
+    <script src="https://code.ionicframework.com/1.0.0/js/ionic.bundle.js"></script>
+  </head>
+
+<style type="text/css">
+  
+/*floating-menu*/
+
+#floating-menu {
+    position: fixed;
+    right: 20px;
+    z-index: 9999;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+}
+
+#floating-menu .center{
+    margin-left: auto; 
+    margin-right: auto; 
+    left: 0; 
+    right: 0; 
+}
+
+#floating-menu .icon.menu-icon{
+    font-size: 20px;
+}
+
+#floating-menu img.menu-icon{
+    font-size: 20px;
+}
+
+
+
+#floating-menu li.menu-button {
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#floating-menu li{
+    position: absolute;
+    left: 0.5px;
+    top: 0.5px;
+    width: 98%;
+    height: 98%;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+}
+
+#floating-menu li span.label{
+    margin-right: 2px;
+    color: gray;
+    background-color: white;
+    padding: 6px;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    box-shadow: 0.5px 2px 2px 0.5px rgba(0, 0, 0, 0.2);
+}
+
+
+#floating-menu li span.label-container{
+    margin-right: 2px;
+    position: absolute;
+    display: inline-block;
+    visibility: hidden;
+    top: 0px;
+    overflow: hidden;
+    right: 75px;
+    width: 400px;
+    text-align: right;
+    font-size: 15px;
+}
+
+#floating-menu.active span.label-container{
+    visibility: visible;
+}
+
+#floating-menu ion-floating-item > li  {
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    -moz-transition: .3s;
+}
+
+#floating-menu.active ion-floating-item:nth-child(1) > li {
+    transform: translateY(-70px);
+    -webkit-transform:translateY(-70px);
+    transition-delay: 0ms; -webkit-transition-delay: 0ms;
+}
+#floating-menu.active ion-floating-item:nth-child(2) > li {
+    transform: translateY(-140px);
+     -webkit-transform:translateY(-140px);
+    transition-delay: 50ms; -webkit-transition-delay: 50ms;
+}
+#floating-menu.active ion-floating-item:nth-child(3) > li {
+    transform: translateY(-210px);
+     -webkit-transform:translateY(-210px);
+    transition-delay: 100ms; -webkit-transition-delay: 100ms;
+}
+#floating-menu.active ion-floating-item:nth-child(4) > li {
+    transform: translateY(-280px);
+     -webkit-transform:translateY(-280px);
+    transition-delay: 150ms; -webkit-transition-delay: 150ms;
+}
+#floating-menu.active ion-floating-item:nth-child(5) > li {
+    transform: translateY(-350px);
+     -webkit-transform:translateY(-350px);
+    transition-delay: 160ms; -webkit-transition-delay: 160ms;
+}
+#floating-menu.active ion-floating-item:nth-child(6) > li {
+    transform: translateY(-420px);
+     -webkit-transform:translateY(-420px);
+    transition-delay: 170ms; -webkit-transition-delay: 170ms;
+}
+#floating-menu.active ion-floating-item:nth-child(7) > li {
+    transform: translateY(-490px);
+     -webkit-transform:translateY(-490px);
+    transition-delay: 180ms; -webkit-transition-delay: 180ms;
+}
+</style>
+
+  <body ng-app="app">
+    <div style="">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+    <ion-pane>
+        <ion-floating-menu  sytle="bottom: 50px!important">
+    <ion-floating-item icon="ion-person" text="Test">  
+    </ion-floating-item>
+</ion-floating-menu>
+    </ion-pane>
+
+<script type="text/javascript">
+  /* https://github.com/pregiotek/ion-floating-menu */
+(function () {
+    'use strict';
+
+    angular.module('ion-floating-menu', [])
+
+            .directive('ionFloatingButton', ionFloatingButton)
+            .directive('ionFloatingMenu', ionFloatingMenu)
+            .directive('ionFloatingItem', ionFloatingItem)
+            .factory('$ionicBackdropIon', $ionicBackdropIon);
+
+
+    function ionFloatingButton() {
+        return {
+            restrict: 'E',
+            scope: {
+                click: '&?',
+                buttonColor: '@?',
+                buttonClass: '@?',
+                icon: '@?',
+                iconColor: '@?',
+                hasFooter: '=?',
+                isCentered: '=?',
+                text: '@?',
+                textClass: '@?',
+                bottom: '@?'},
+            template: '<ul ng-click="click()" id="floating-button" ng-class="{\'center\': isCentered}" ng-style="{\'bottom\' : \'{{bottom}}\' }">' +
+                    '<li ng-class="buttonClass" ng-style="{\'background-color\': buttonColor }">' +
+                    '<a><span ng-if="text" class="label-container"><span class="label" ng-class="textClass" ng-bind="text"></span></span><i class="icon menu-icon" ng-class="{ \'{{icon}}\' : true}" ng-style="{\'color\': iconColor }"></i></a>' +
+                    '</li>' +
+                    '</ul>',
+            replace: false,
+            transclude: true,
+            controller: ionFloatingButtonCtrl
+        };
+    }
+
+    ionFloatingButtonCtrl.$inject = ['$scope'];
+    function ionFloatingButtonCtrl($scope) {
+        $scope.buttonColor = $scope.buttonColor || '#2AC9AA';
+        $scope.icon = $scope.icon || 'ion-plus';
+        $scope.iconColor = $scope.iconColor || '#fff';
+        $scope.hasFooter = $scope.hasFooter || false;
+        $scope.isCentered = $scope.isCentered || false;
+
+        if ($scope.hasFooter) {
+            $scope.bottom = '60px';
+        } else {
+            $scope.bottom = $scope.bottom || '20px';
+        }
+    }
+
+    function ionFloatingMenu() {
+        return {
+            restrict: 'E',
+            scope: {
+                menuOpenColor: '@?',
+                menuOpenIcon: '@?',
+                menuOpenIconColor: '@?',
+                menuColor: '@?',
+                menuIcon: '@?',
+                menuIconColor: '@?',
+                hasFooter: '=?',
+                backdrop: '=?',
+                bottom: '@?'
+            },
+            template: '<ul id="floating-menu"  \n\
+                            ng-style="{\'bottom\' : \'{{bottom}}\'}" \n\
+                            ng-class="{\'active\' : isOpen}" \n\
+                            ng-click="open()">' +
+                    '<div ng-transclude></div>' +
+                    '<span><li class="menu-button icon menu-icon" ng-class="icon" ng-style="{\'background-color\' : buttonColor, \'color\': iconColor}"></li></span>' +
+                    '</ul>',
+            replace: false,
+            transclude: true,
+            link: function (scope, element, attrs, ctrl, transclude)
+            {
+                element.find('div').replaceWith(transclude());
+            },
+            controller: ionFloatingMenuCtrl
+        };
+    }
+
+    function ionFloatingItem() {
+        return {
+            restrict: 'E',
+            require: ['^ionFloatingMenu'],
+            scope: {
+                click: '&?',
+                icon: '@',
+                iconColor: '@?',
+                buttonColor: '@?',
+                buttonClass: '@?',
+                iconImagePath: '@?',
+                iconImageClass: '@?',
+                text: '@?',
+                textClass: '@?'},
+            template:
+                    '<li ng-click="click()" ng-class="buttonClass" ng-style="{\'background-color\': buttonColor }">' +
+                    '<span ng-if="text" class="label-container"><span class="label" ng-class="textClass" ng-bind="text"></span></span>' +
+                    '<img ng-if="iconImagePath" class="menu-icon" ng-class="iconImageClass" src="{{iconImagePath}}"/>' +
+                    '<i ng-if="!iconImagePath" class="icon menu-icon" ng-class="{ \'{{icon}}\' : true}" ng-style="{\'color\': iconColor }"></i>' +
+                    '</li>',
+            replace: false,
+            controller: ionFloatingItemCtrl
+        };
+    }
+
+    ionFloatingMenuCtrl.$inject = ['$scope', '$rootScope', '$ionicBackdropIon'];
+    function ionFloatingMenuCtrl($scope, $rootScope, $ionicBackdropIon) {
+        $scope.isOpen = false;
+        $scope.open = function () {
+            $scope.isOpen = !$scope.isOpen;
+            if ($scope.isOpen) {
+                $scope.setOpen();
+            } else {
+                $scope.setClose();
+            }
+        };
+        $scope.setOpen = function () {
+            $scope.buttonColor = menuOpenColor;
+            $scope.icon = menuOpenIcon;
+            $scope.iconColor = menuOpenIconColor;
+
+            if (backdrop) {
+                $ionicBackdropIon.retain();
+            }
+            $rootScope.$broadcast('floating-menu:open');
+        };
+        $scope.setClose = function () {
+            $scope.buttonColor = menuColor;
+            $scope.icon = menuIcon;
+            $scope.iconColor = menuIconColor;
+            if (backdrop) {
+                $ionicBackdropIon.release();
+            }
+            $rootScope.$broadcast('floating-menu:close');
+        };
+        var menuColor = $scope.menuColor || '#2AC9AA';
+        var menuIcon = $scope.menuIcon || 'ion-plus';
+        var menuIconColor = $scope.menuIconColor || '#fff';
+        var menuOpenColor = $scope.menuOpenColor || '#2AC9AA';
+        var menuOpenIcon = $scope.menuOpenIcon || 'ion-minus';
+        var menuOpenIconColor = $scope.menuOpenIconColor || '#fff';
+        var backdrop = $scope.backdrop || false;
+        $scope.setClose();
+        $scope.hasFooter = $scope.hasFooter || false;
+        if ($scope.hasFooter) {
+            $scope.bottom = '60px';
+        } else {
+            $scope.bottom = $scope.bottom || '20px';
+        }
+
+    }
+
+    ionFloatingItemCtrl.$inject = ['$scope'];
+    function ionFloatingItemCtrl($scope) {
+        $scope.buttonColor = $scope.buttonColor || '#2AC9AA';
+        $scope.iconColor = $scope.iconColor || '#fff';
+    }
+
+
+    $ionicBackdropIon.$inject = ['$document', '$timeout', '$$rAF', '$rootScope'];
+    function $ionicBackdropIon($document, $timeout, $$rAF, $rootScope) {
+        var el = angular.element('<div class="backdrop">');
+        var backdropHolds = 0;
+
+
+        var a = angular.element(document.querySelector('ion-content')).append(el[0]);
+
+        return {
+            /**
+             * @ngdoc method
+             * @name $ionicBackdrop#retain
+             * @description Retains the backdrop.
+             */
+            retain: retain,
+            /**
+             * @ngdoc method
+             * @name $ionicBackdrop#release
+             * @description
+             * Releases the backdrop.
+             */
+            release: release,
+            getElement: getElement,
+            // exposed for testing
+            _element: el
+        };
+
+        function retain() {
+            backdropHolds++;
+            if (backdropHolds === 1) {
+                el.addClass('visible');
+                $rootScope.$broadcast('backdrop.shown');
+                $$rAF(function () {
+                    // If we're still at >0 backdropHolds after async...
+                    if (backdropHolds >= 1)
+                        el.addClass('active');
+                });
+            }
+        }
+        function release() {
+            if (backdropHolds === 1) {
+                el.removeClass('active');
+                $rootScope.$broadcast('backdrop.hidden');
+                $timeout(function () {
+                    // If we're still at 0 backdropHolds after async...
+                    if (backdropHolds === 0)
+                        el.removeClass('visible');
+                }, 400, false);
+            }
+            backdropHolds = Math.max(0, backdropHolds - 1);
+        }
+
+        function getElement() {
+            return el;
+        }
+
+    }
+})();
+
+angular.module('app', ['ionic','ion-floating-menu']);
+</script>
+
+  </body>
+</html>

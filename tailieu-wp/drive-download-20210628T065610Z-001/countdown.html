@@ -1,0 +1,59 @@
+<style type="text/css">
+	
+.countdown {
+  color: #fff;
+  width: auto;
+}
+
+.countdown ul {
+  text-align: center;
+}
+
+.countdown ul > .down-days {
+display: inline-block;
+  font-size: 18px;
+  list-style-type: none;
+  padding: 1em;
+  text-transform: uppercase;
+  border-radius: 8px;	
+  background-color: #ff9800;
+  text-align: center;
+  margin-left: 10px;
+width: 130px;
+  height: 145px;
+  padding-top: 45px;
+}
+.countdown ul li span {
+  display: block;
+  font-size: 65px;
+  padding-bottom: 15px;
+}
+</style>
+<div class="countdown">
+  <ul>
+    <li class="down-days"><span id="days"></span>Ngày</li>
+    <li class="down-days"><span id="hours"></span>Giờ</li>
+<div style=""><br></div>
+    <li class="down-days"><span id="minutes"></span>Phút</li>
+    <li class="down-days"><span id="seconds"></span>Giây</li>
+  </ul>
+</div>
+<script type="text/javascript">
+	const second = 1000,
+      	minute = second * 60,
+      	hour = minute * 60,
+      	day = hour * 24;
+
+let countDown = new Date('Sep 15, 2019 00:00:00').getTime(),
+    x = setInterval(function() {
+
+    let now = new Date().getTime(),
+        distance = countDown - now;
+
+    document.getElementById('days').innerText = Math.floor(distance / (day)),
+        document.getElementById('hours').innerText = Math.floor((distance % (day)) / (hour)),
+        document.getElementById('minutes').innerText = Math.floor((distance % (hour)) / (minute)),
+        document.getElementById('seconds').innerText = Math.floor((distance % (minute)) / second);
+
+    }, second)
+</script>
